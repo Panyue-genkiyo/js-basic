@@ -49,4 +49,4 @@ Object.defineProperties(obj,{
     }
 });
 // delete obj.b
-console.log(obj);
+// console.log(obj);
