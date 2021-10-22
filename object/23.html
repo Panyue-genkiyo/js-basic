@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单验证体验代理</title>
+    <style>
+        input{
+            outline: none;
+        }
+       .error{
+           border: 1px solid red;
+       }
+    </style>
+</head>
+<body>
+    <input type="text" validate rule="max:12,min:3"/>
+    <input type="text" validate rule="max:3,isNumber"/>
+</body>
+<script type="text/javascript">
+    "use strict";
+
+    class Validate{
+        max(val, len){
+            return val.length <= len;
+        }
+
+       min(val, len){
+           return val.length >= len;
+       }
+       
+       isNumber(val){
+           return /^\d+$/.test(val);
+       }
+    }
+    
+    
+    //代理工厂
+    function ProxyFactory(target){
+        //node类型的数组
+        return new Proxy(target, {
+            get(target, key){
+                return target[key];
+            },
+            set(target, key, el){
+                // console.log(key);
+                const rule = el.getAttribute('rule');
+                const validate = new Validate();
+                let state = rule.split(',').every(rule => {
+                    const info = rule.split(':');
+                    return validate[info[0]](el.value, info[1]);
+                });
+                console.log(state);
+                el.classList[state?'remove': 'add']('error');
+                return true
+            }
+        });
+    }
+
+    let proxy = ProxyFactory(document.querySelectorAll('[validate]'));
+    proxy.forEach((item, i) => {
+        item.addEventListener('keyup', function(){
+            console.log(this);
+            proxy[i] = this;
+        })
+    })
+
+</script>
+</html>
