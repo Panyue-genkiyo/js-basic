@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟vuejs数据绑定容器更新</title>
+</head>
+<body>
+    <!--双向数据绑定-->
+     <input type="text" v-model="content"/>
+     <br/>
+     <span v-bind="content"></span>
+     <hr/>
+     <input type="text" v-model="title"/>
+     <input type="text" v-model="title"/>
+     <div v-bind="title">
+         
+     </div>
+</body>
+<script>
+    //使用代理来完成数据容器
+    function View(){
+        let proxy = new Proxy({}, {
+            get(obj, property) {
+                
+            },
+            set(obj, property, value){
+                // console.log(value);
+                //在这里渲染页面
+                document.querySelectorAll(`[v-model="${property}"]`).forEach(item => {
+                   item.value = value;   
+                });
+                ///绑定v-bind的也更改
+                document.querySelectorAll(`[v-bind="${property}"]`).forEach(item => {
+                    item.innerHTML = value;
+                })
+            }
+        });
+
+        //绑定事件
+        this.init = function(){
+           const els = document.querySelectorAll('[v-model]');
+           els.forEach(el => {
+               el.addEventListener('keyup',  function(){
+                   //这里this就是el 带有v-model属性的el
+                   //此时会触发代理的set方法
+                   proxy[this.getAttribute('v-model')] = this.value;
+               })
+           })
+        }
+    }
+    let view  = new View();
+    view.init();
+</script>
+</html>
