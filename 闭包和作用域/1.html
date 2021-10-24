@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>什么是环境和作用域</title>
+</head>
+<body>
+    <button>hello panyue</button>
+</body>
+<script>
+
+    //全局环境 
+   let title = 'www';
+   
+   //全局环境中的资源
+   //资源会不会被释放取决于它以后还会不会被使用
+//    function hello(){
+//        console.log(this);
+//        console.log(title); 
+//    }
+
+//    document.querySelector('button').addEventListener('click', hello);
+
+    //1.全局的环境是不会被回收的
+
+   let a  = 1;
+   function show(){
+       //函数作用域--》全局作用域 作用域链查找
+       console.log(a); //作用值域
+   }
+
+   console.log(title);
+   show();
+</script>
+</html>
