@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>块级作用域</title>
+</head>
+<body>
+</body>
+<script>
+    //在同一作用域下用let声明同一变量是不被允许的
+    // let s = 0;
+    // let s = 1;
+    //块作用域
+    {
+        //相当于全局环境中存在一个块级作用域
+        let a = 1;
+        console.log(a);
+    }
+    // console.log(a); //boom！reference error 看不到这个a
+    {
+        let a = 2; //又一个块级作用域，与上一个a不一样注意
+    }
+
+    {
+        var a = 3; //var是没有块级作用域的 直接把这个a放到全局下
+    }
+    {
+        const c = 1; //const与let一样 具有块级作用域的特点
+    }
+    //  console.log(c); //boom！reference error 看不到这个c
+     console.log(a); //3
+     console.log(window.a); //3
+</script>
+</html>
