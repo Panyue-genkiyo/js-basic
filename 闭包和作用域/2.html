@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数的环境与作用域原理</title>
+</head>
+<body>
+</body>
+<script>
+
+    /**
+     * 全局： title show
+     * show: url, hd
+     * hd: site ... 套娃开始了...
+     */
+    let title = 'lll'; //全局环境 作用域顶端
+    function show(){
+      let url = 'www.google.com';  //函数作用域 函数环境 默认只能在该环境下或其子环境使用
+      function hd(){
+         let site = 'www.hdcms.cn'; //函数环境
+         console.log(url); //这里是可以使用url的，作用域查找
+      }
+      hd();
+    //   console.log(site); site is not defined,外层不能访问内层
+    }
+
+
+    show();
+    //调用完了就销毁该函数的环境
+    //下次再调就再开辟一块新的空间保存该函数环境
+    // console.log(url); url is not defined;
+
+    
+</script>
+</html>
