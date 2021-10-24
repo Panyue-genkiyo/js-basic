@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>延伸函数环境生命周期</title>
+</head>
+<body>
+</body>
+<script>
+    function hd(){
+        let n = 1;
+        function sum(){
+            // let tit = 'hello';
+            console.log(++n);
+        }
+        sum(); //==>开辟sum函数空间,创建sum函数的环境 作用域链: sum ==> hd ==> global(window)
+    }
+    hd(); //开辟hd函数空间,创建hd函数的环境 包含n,sum
+    // hd(); //注意调用多次会反复创建多份hd函数环境 
+    //hd(); //2
+    //hd(); //2
+    //hd(); //2 注意多个环境不同操作的不是同一个环境里n！！！
+    
+    //再次创建的新的hd环境时，上一次创建的hd环境会被清理掉，因为无法再访问到它了，除非使用闭包
+
+    function test(){
+        let n = 1;
+        //闭包
+        return function(){
+        //    console.log(++n);
+           let m = 1;
+        //    function show(){
+        //        console.log('m:', ++m);
+        //    }
+        //    //此时一样内部的show函数没有被引用使用完就被扔掉了
+        //    show(); //开辟show函数的内存空间==》 show ==> 匿名 ==> n;
+           return function(){
+               console.log(`m: ${++m}`); //ok!! 闭包
+               console.log(`n ${++n}`); //ok可以，因为闭包，外面的b拿到了内层函数的引用，直接保存test函数这个一开始被创建的环境
+           }
+        }
+    }
+
+    // let s = test(); //闭包
+    // s(); //创建的环境包含了n 此时去调用原本在test函数环境中的匿名函数，且去访问test的函数中的n，所以test函数的环境是不会被销毁的
+    // s(); //n 3
+    // s(); //n 4
+    // s(); //n 5
+    // let b = test(); //又开启了一个新的test环境
+    // b(); //n 2
+    // b(); //n 3
+
+//    let a = test(); 
+//    a(); //开辟a的空间 m,show ===> m: 2
+//    a(); //此时依然是不会被累加的
+
+     let a = test();
+     let b = a(); //"接住"最里层的函数返回保留住它的空间 用同一份变量
+     b(); //m:2 n:2
+     b(); //m:3 n:3
+     b(); //m:4 n:4 ok！！闭包生效
+
+     //在你访问最内层的函数的时候，外层的函数环境都会被保留 因为js引擎判断你需要用 就像上面的b一样一旦你手里握住了这个🔑，它就会保留出这整个函数的环境
+    
+
+</script>
+</html>
