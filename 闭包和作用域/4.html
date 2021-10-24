@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>构造函数中的作用域的体现形式</title>
+</head>
+<body>
+</body>
+<script>
+    function Hd(){
+        let n = 1; 
+        this.sum =  function(){
+            console.log(++n); //使用了n，则保留hd()函数一开始所创建的词法环境
+        }
+
+        //就类似于普通函数中 return { sum }; //一样在外面使用了该函数体内部的内容，所以保留！闭包
+    }
+
+    let a = new Hd(); //a { sum : fn }
+    // console.log(a);
+    a.sum();//2
+    a.sum(); // 3 闭包
+
+    let b = new Hd(); //新的空间 n从1开始
+    b.sum(); //2
+    b.sum(); //3
+
+    //但是a不会被“清除”
+    a.sum(); //4
+</script>
+</html>
