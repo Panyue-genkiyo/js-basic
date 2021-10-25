@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this在闭包中的历史遗留问题</title>
+</head>
+<body>
+</body>
+<script>
+    let hd = {
+        user: 'panyue',
+        get(){
+           let that = this; 
+           return function(){
+               //特别注意这里的this可能会丢失
+               //strict mode下直接为undefined
+               //this在闭包中比较特殊，虽然在作用链上，但是你如果不手动保存，它是不会利用闭包特性去寻找的(或者使用箭头函数，箭头函数没有this和arguments,都会沿着作用域链去查找)
+               return that.user;
+           }
+        }
+    }
+    console.log(hd.get()()); //闭包ok啦
+</script>
+</html>
