@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闭包内存泄漏解决办法</title>
+</head>
+<body>
+    <button desc='learn'>learning</button>
+    <button desc='js'>js</button>
+</body>
+<script>
+    /*闭包的内存泄漏问题*/
+    let btns = document.querySelectorAll("button");
+    btns.forEach(function(item){
+        /*注意每次仅仅是为了获取button上的desc属性却要每次都保留一大段htm结构 闭包的问题内存泄漏*/
+        let desc = item.getAttribute("desc");
+        item.addEventListener("click",function(){
+            ///异步
+            console.log(desc);
+            console.log(item); //此时的item为空 不用保存大段的html结构，适度解决了内存泄漏问题
+        });
+        item = null;  
+    })
+</script>
+</html>
