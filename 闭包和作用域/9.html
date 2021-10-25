@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>移动动画闭包使用</title>
+    <style>
+        button{
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <button message='py'>panyue</button>
+    <button messgae='hd'>hd</button>
+</body>
+<script>
+    let btns = document.querySelectorAll('button');
+    btns.forEach(item => {
+        //this === window
+        // let left = 1; //把left放在这里就不产生抖动的特点了
+        // console.log(left);
+        // let interval = false; //标识位,防止多次点击产生多个定时器导致动画速度越来越快 节流的思想(高频率操作短时间执行一次)
+        let bind; //尽量降低污染父级作用域的做法
+        item.addEventListener('click',function(){
+            // console.log(this); //回调函数的this在这里就是btn，如果换成箭头函数this就是window
+            // let left = 1; //这里多次点击会出现抖动的现象，因为你每次点击都会产生新的click回调函数环境，left都从1开始这就导致了"回头鬼畜"的现象
+            // console.log(left); //left在两个button之间并不共享 每次点击都产生一个新的函数作用域环境
+            if(!bind){
+                let left = 1;
+                // interval = true; //只有第一次点击才会生成定时器，因为不管你点击多少次，父级作用域的left和interval只有一份
+                bind = setInterval(() => {
+                    //闭包特性 可以访问到其他函数作用域的特性
+                    item.style.left = left ++ + 'px'; //能够使用item和left这两个变量就代表作用域链生效了
+                }, 100);
+           }
+        });
+    })
+</script>
+</html>
