@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>let const var在for循环当中的执行原理</title>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+    for(var i = 1; i <= 3; i ++){
+        // console.log(i); //1,2,3
+        setTimeout(function(){
+           console.log(i); //3个4
+        },1000);
+    }
+    console.log(i); //4 var没有块级作用域可以在外部被访问
+    
+
+    /*const和let情况差不多只是不能改变变量的值(原始值，引用)*/
+    for(let j = 1; j <= 3; j ++){
+         /*第一块 j = 1*/
+         /*第二块 j= 2*/
+         /*第三块 j= 3*/
+         //...
+        //  console.log(j); //1,2,3 let:块级作用域不会在window下面定义
+        setTimeout(function(){
+            console.log(j); //1, 2, 3被限制在每个块 函数直接在每个块中查找这个j
+        }, 1000);
+    }
+
+    ///console.log(j); //4 var没有块级作用域可以在外部被访问 refrence error j is not defined
+
+    
+</script>
+</html>
