@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多级作用域嵌套解释</title>
+</head>
+<body>
+</body>
+<script>
+      let arr = [];
+      
+      /*注意这里如果这里let改成var的话，就没有块级作用域了所有函数访问到都是外界全局中的i，也就是4*/
+      for(let i = 0; i <= 3; i++){
+          arr.push(function(){
+             return i;  //注意因为你把这个函数压入到全局的数组中，所以"有人"要用这个块级作用域的变量i，所以块级作用域被保留 闭包!!!
+          });
+     }
+
+     console.log(arr[0]()); //0
+     console.log(arr[1]()); //1     
+</script>
+</html>
