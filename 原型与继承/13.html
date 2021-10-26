@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom节点借用array原型方法</title>
+</head>
+<body>
+    <button message="py" class="red">py</button>
+    <button message="hello">hello</button>
+</body>
+<script type="text/javascript">
+   /*btns类数组没有数组上的foreach，filter等方法，需要“借用”*/
+   let btns = document.querySelectorAll('button');
+   //console.log(btns.filter); //undefined
+   /*借用方法*/
+   /*只留下存在class属性的button*/ 
+   //console.log(Array.prototype.filter === [].filter); //true
+   btns = [].filter.call(btns, item => item.hasAttribute('class'));
+   console.log(btns);
+   console.log(btns[0].innerHTML); //py
+   
+</script>
+</html>
