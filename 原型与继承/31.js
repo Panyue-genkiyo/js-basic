@@ -24,6 +24,7 @@ const Address = {
 
 const Request = {
     ajax(){
+        console.log(this, 'in request'); //证明this是下面的py，Ok证明完毕
         return '请求后台';
     }
 }
@@ -33,13 +34,18 @@ const Credit = {
     total(){
         // console.log(this);
         // this.__proto__是有问题的
-        console.log(`${super.ajax()},积分统计`);
+        //这里this.__proto__ = Admin.prototype; 所以在查找this.__proto__.ajax的时候是undefined; 调用undefined()会出问题
+        //所以这里只能使用super  this.__proto__ !== super
+        // console.log(this.__proto__.ajax); //undefined
+        console.log(`${super.ajax()},积分统计`)
+        // console.log(`${super.ajax()},积分统计`);
     }
 }
 
 extend(Admin, User);
 
 //属性合并到Admin的原型上直接mixin混合 间接实现多继承
+//关系: Admin.prototype.__proto__ === User.prototype; Admin.prototype.total = Credit.total(引用)
 Admin.prototype = Object.assign(Admin.prototype, Credit);
 
 
