@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试this</title>
+</head>
+<body>
+    <button>1</button>
+    <button>2</button>
+</body>
+<script type="text/javascript">
+    let btns = document.querySelectorAll('button');
+    btns.forEach(function(item){
+        console.log(this); //window
+        //类似于{show(){}, show:() => {}//区别}
+        item.addEventListener('click', function(){
+            //this === window 箭头函数
+            //this === <button>1 or 2</button> 不同函数
+            console.log(this);
+        });
+    });
+
+    let u = {
+        username: 'py',
+        show: () => {
+            console.log(this); //window
+            console.log(this.username); //undefined
+        } 
+    }
+
+    u.show();
+</script>
+</html>
