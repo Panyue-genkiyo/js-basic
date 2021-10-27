@@ -4,6 +4,7 @@ function User(){
     
 }
 
+
 User.prototype.show = function(){
     //这个this因为是动态的其实就有多态哪味了
     console.log(this.description());
