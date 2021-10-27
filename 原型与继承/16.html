@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>不要滥用原型</title>
+</head>
+<body>
+    <button onclick="this.hide()">hidden</button>
+</body>
+<script type="text/javascript">
+    //不建议把所用的功能代码写到object的顶层原型上,容易与第三方库发生冲突
+    // Object.prototype.hide = function(){
+    //     console.log('hidden!!');
+    //     this.style.display = 'none';
+    // }
+
+   
+</script>
+</html>
