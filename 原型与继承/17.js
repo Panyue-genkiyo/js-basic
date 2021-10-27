@@ -19,7 +19,7 @@ let user = {
 // // hd.name = 'hd';
 // console.log(hd.show()); //this === show();
 
-//__proto__ set/get
+//__proto__ set/get 注意__proto__设置获取原型是不标准的方式
 
 let hd = { name: 'hd' };
 hd.__proto__ = user;
