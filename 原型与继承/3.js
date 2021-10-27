@@ -23,3 +23,7 @@ User.__proto__.view = function(){
 }
 User.view();
 
+console.log(User.__proto__ === Function.prototype); //true
+console.log(Function.prototype.__proto__ === Object.prototype); //true
+console.log(Object.__proto__ === Function.prototype); //true
+console.log(User.__proto__.__proto__ === Object.prototype); //true
