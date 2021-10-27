@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原型链继承小案例</title>
+    <style>
+        *{
+            padding: 0;
+            margin:0;
+        }
+        body {
+            padding-left: 120px;
+            padding-top: 200px;
+        }
+        main.tab1{
+            width:500px;
+            height: 500px;
+            overflow: hidden;
+        }
+        main.tab1 > button{
+            outline:none;
+            border:none;
+            padding: 10px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        main.tab1 > button:first-of-type{
+            background:#54a0ff;
+            margin-right: 10px;
+        }
+        main.tab1 > button:nth-of-type(2){
+            background:#576574;
+        }
+        main > div{
+           width: 300px;
+           height: 300px;
+           color:white;
+           font-size:1.5em;
+        }
+        
+        main>div:nth-of-type(1){
+            background: #ee5253;
+            float: left;
+        }
+        main>div:nth-of-type(2){
+            background-color: #009432;
+        }
+    </style>
+</head>
+<body>
+    <main class="tab1">
+        <button>hello1</button>
+        <button>hello2</button>
+        <div>1</div>
+        <div>2</div>
+    </main>
+</body>
+<script type="text/javascript">
+
+    function Animate(){
+    }
+
+    Animate.prototype.changeColor=function(color){
+        this.style.backgroundColor = color;
+    }
+    Animate.prototype.show = function(){
+        this.style.display = 'block'
+    }
+    Animate.prototype.hide = function(){
+        this.style.display = 'none'
+    }
+    
+    // let divs = document.querySelectorAll('div');
+    // let btns = document.querySelectorAll('button');
+    
+    function extend(sub, sup){
+        sub.prototype = Object.create(sup.prototype);
+        Object.defineProperty(sub.prototype, 'constructor', {
+            value: sub,
+            enumerable:false,
+        });
+    }
+
+    extend(Tab, Animate);
+
+    function Tab(args){
+        //参数合并更方便定制
+        args = Object.assign({ el: null, link: 'button', section: 'div' , callback: null, }, args);
+        console.log(args);
+        this.el = document.querySelector(args['el']);
+        this.links = this.el.querySelectorAll(args['link']);
+        this.divs = this.el.querySelectorAll(args['section']);
+        this.callback = args['callback'];
+    }
+
+    Tab.prototype.run = function(){
+        this.reset()
+        this.action(1);
+        this.bindEvent()
+    }
+    
+    //这里的函数一定不能写成箭头函数否则this会为window，拿不到tab对象
+    Tab.prototype.bindEvent =function(){
+        console.log(this); //
+        this.links.forEach(( link, i )=> {
+            link.addEventListener('click',() => {
+                //普通函数this为出发事件的button 箭头函数时this为Tab对象，向上查找，作用域链
+                //console.log(this);  
+                this.reset();
+                this.action(i);
+                if(this.callback) this.callback();
+            })
+        })
+    }
+
+    Tab.prototype.action = function(index){
+        this.changeColor.call(this.links[index], '#54a0ff');
+        this.show.call(this.divs[index]);
+    }
+
+    Tab.prototype.reset = function(){
+        this.links.forEach((el, i) => {
+            this.changeColor.call(el, '#576574');
+            this.hide.call(this.divs[i]);
+        })
+    }
+
+    
+
+    new Tab({
+        el: '.tab1',
+        callback(){
+            console.log('test callback')
+        }
+    }).run();
+
+</script>
+</html>
