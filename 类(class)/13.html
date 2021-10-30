@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>私有属性</title>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+   /*私有属性 完全属于类外部不可以访问*/
+"use strict";
+
+class User{
+     
+    #host = 'http://www.google.com';    
+    
+    constructor(name){
+        this.name = name;
+        this.#check(this.name);
+    }
+
+    get host(){
+        return this.#host;
+    }   
+
+    set host(value){
+        if(!/^https?:/i.test(value)){
+            throw new Error('Invalid host');
+        }
+        this.#host = value;
+    }
+
+    //私有函数(设置形式)只能在类内部访问
+    #check = (name) => { 
+        console.log(this); //this === 当前类对象
+        if(name.length < 5){
+            throw new Error('名字长不能小于5');
+        }
+        return true;
+    }
+
+}
+
+let hd = new User('hdxxxxx');
+hd.host = 'http://wwww.sss.com';
+
+// console.log(hd);
+// hd.#host = 'www.hdcnv.com'; //注意这里只是添加了一个属性到自身，不能修改私有属性
+// console.log(hd);
+
+// console.log(hd.#check('sss')); //试图在外面访问私有函数也是不行的
+
+</script>
+</html>
