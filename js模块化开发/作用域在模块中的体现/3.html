@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作用域在模块中的体现</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let msg = 'happy learning js!!';
+</script>
+<!-- <script type="text/javascript">
+    let site = 'www.google.com'; //全局变量 顶级作用域
+</script> -->
+<script type="module">
+    //当声明为模块时，变量的作用域只在模块内部
+    let site = 'www.google.com';
+</script>
+<script type="text/javascript">
+    //console.log(site) 此时site访问不到，因为site是模块变量 not declared
+    console.log(msg);//ok 可以访问到顶级作用域的变量
+</script>
+<script type="module">
+     import { } from './3-1.js';
+</script>
+</html>
