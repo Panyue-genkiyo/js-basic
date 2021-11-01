@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发一个模块管理引擎</title>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript">
+     //管理模块开发
+     //amd umd commonjs  requirejs
+     let module = (function () { 
+         const moduleList = {}; //闭包
+         //定义模块的函数
+         function defined(name, modules, action){
+             //拿出你依赖的模块
+             modules.map((m, i) => {
+                if(!moduleList[m]){
+                    //如果不存在该模块则报错
+                    throw new Error(`${m} module is not defined`);
+                }
+                modules[i] = moduleList[m];  //把依赖的模块放到modules里面，把模块的名称换成真正的模块
+             }); 
+             //往容器里面压入模块
+             moduleList[name] = action.apply(null, modules);//这里的modules就是[我们依赖的一个又一个模块，直接传递到回调函数中当参数  //如果该模块的回调函数有返回值，则把返回值放到容器里面(暴露出来的东西)
+            //  console.log(moduleList);
+         }
+         //闭包
+         return { defined };
+     })(); ///立即执行函数
+     //模块Hd;
+     //导出
+     module.defined('hd', [], function(){
+         //只有在第一次初始化才执行这行代码
+         console.log('hd');
+         return {
+             first(arr){
+                 return arr[0]
+             },
+             max(arr, key){
+               return arr.slice().sort((a, b) => b[key] - a[key])[0];  
+             }
+         }
+     });
+     //模块lesson 依赖hd
+     //导入
+     module.defined('lesson', ['hd'], function (hd) {  
+         let data = [
+          { name: 'js', price: 100 },
+          { name: 'mysql', price: 212 },
+          { name: 'vue.js', price: 98 }
+        ]
+         console.log(hd.max(data, 'price'));
+         console.log(hd.first(data));
+     });
+     
+    module.defined('a', [], function(){
+        return {
+            name: 'py',
+            site: 'www.panyue.com'
+        }
+    });
+    module.defined('b', ['a'], function(a){
+        console.log(a.name);
+        console.log(a.site);
+        //在这里修改a对象给我们暴露的值
+        a.name = 'pye'
+    });
+
+    module.defined('c', ['a'], function(a){
+        console.log(a.name); //共用模块暴露出来的值(在b模块中修改了)
+    });
+</script>
+</html>
