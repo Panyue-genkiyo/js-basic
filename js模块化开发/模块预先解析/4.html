@@ -10,8 +10,10 @@
 </body>
 <script type="module">
     import {obj} from './4-1.js'; //之后你不管引入多少次它都在第一次完成解析运行模块中的代码，不会再次解析
-    console.log(obj.data);
+    console.log(obj.data); 
     import { count }from './4-2.js'; 
     console.log(count)
+
+    //多个模块使用同一个模块文件，只需要引入一次 预解析
 </script>
 </html>
