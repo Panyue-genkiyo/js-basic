@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模块的延迟解析与严格模式</title>
+    <script type="module">
+        // let btn = document.querySelector('button'); //null 默认此时dom还没加载完成
+        // console.log(btn); //null
+        
+        //但是如果我们给script标签加上type='module',情况就会发生变化
+        //此时会把模块全部加载完成之后再来处理这里的逻辑 延迟解析
+        // let btn = document.querySelector('button');
+        //console.log(btn); //可以访问到了
+
+        //或者把它放在木模块中的也是可以访问的
+        // import {} from './2.js'; //
+
+        //在模块中默认使用严格模式
+        //site = "www.google.com"; //报错 必须使用let const，var来声明变量
+        console.log(this); //严格模式下this为undefined;
+
+    </script>
+</head>
+<body>
+    <button>
+       py
+    </button>
+</body>
+<script>
+    console.log(this); //非严格模式下this指向window
+</script>
+</html>
