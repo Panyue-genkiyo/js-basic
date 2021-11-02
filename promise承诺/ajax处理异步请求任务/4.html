@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajax异步请求任务管理</title>
+</head>
+<body>
+    
+</body>
+<script src="./ajax.js"></script>
+<script>
+    let site = 'www.google.com'
+    //异步操作
+    ajax(`http://localhost:5002/api/students/${2}`, (user) => {
+        console.log(user);
+        //多次ajax请求
+        //异步操作
+        ajax(`http://localhost:5002/api/grades?name=${user.name}`, (grade) => {
+            console.log(grade);
+        })
+    });
+    console.log('hello world!!') //主线程
+</script>
+</html>
