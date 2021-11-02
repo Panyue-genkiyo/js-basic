@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件依赖了解任务排序</title>
+</head>
+<body>
+</body>
+<script>
+    //队列先进先出
+    function load(src, resolve, reject) {
+        var script = document.createElement('script');
+        script.src = src;
+        script.onload = resolve;
+        document.body.appendChild(script);
+    }
+    load('./3-1.js', () => {
+        load('./3-2.js', () => {
+            //保证3-1.js和3-2.js都加载完成 且3-1先加载完成
+            //大量的文件依赖关系会导致很多的回调函数互相嵌套 这就是回调地狱
+            md();
+        })
+    });
+
+
+    console.log(11); //先跑
+
+</script>
+</html>
