@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>混合导入导出使用</title>
+</head>
+<body>
+</body>
+<script type="module">
+    // import say, {site} from './8.js';
+    //批量导入的时候注意问题
+    import * as api from './8.js';
+    // console.log(api);
+    //使用的默认导出的时候需要加上default
+    api.default.call(null);
+    console.log(api.site);
+    api.site.area = 'shanghai or beijing';
+    api.default.call(null); //又提到了预解析
+</script>
+</html>
