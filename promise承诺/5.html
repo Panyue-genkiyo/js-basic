@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise微任务处理机制</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //pending 准备阶段
+     new Promise((resolve, reject) => {
+        // //  resolve(); //resolved
+        // resolve('success'); 
+        reject('error'); //rejected
+     }).then(value => {
+         //如果是成功状态则到这个回调函数中来处理
+        //  console.log(value)
+        console.log('success 1')
+     }, reason => {
+         //如果是失败状态则到这个回调函数中来处理
+        //  console.log(reason);
+        console.log('error 1')
+     }).then(value => {
+         //这里默认接受到一个resolve的promise
+         console.log('success 2')
+     }, error => {
+         console.log('error 2')
+     }); //结果 error1 success2
+
+
+     //promise存在then中微任务队列,settimeout...为宏任务队列，以微任务队列为主，宏任务队列为辅。
+     //主=>微=>宏
+</script>
+</html>
