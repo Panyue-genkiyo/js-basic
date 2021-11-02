@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定时器的任务轮询</title>
+    <style>
+        *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body{
+          background: #f5f5f5;
+        }
+        nav{
+            width: 200px;
+            height: 200px;
+            background: blueviolet;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+   <nav>
+       
+   </nav>
+</body>
+<script>
+    //封装定时器
+    function interval(callback, delay = 50){
+        let id = setInterval(() => callback(id), delay);
+    }
+    interval((timeId) => {
+       let nav = document.querySelector('nav');
+       let left = parseInt(window.getComputedStyle(nav).left);
+       console.log(left);
+       nav.style.left  = left + 10 + 'px';
+       if(left >= 200){
+          clearInterval(timeId); //清除定时器此时不会再往异步任务队列中添加任务了
+          interval((timeId) => {
+              //回调地域！
+              let width = parseInt(window.getComputedStyle(nav).width);
+              nav.style.width = width -  10 + 'px';
+              if(width <= 20){
+                  clearInterval(timeId);
+              }
+          })
+       }
+    });
+
+    console.log('hello'); //当前的活先做 等我主线程执行完毕后才会执行任务队列中的任务
+</script>
+</html>
