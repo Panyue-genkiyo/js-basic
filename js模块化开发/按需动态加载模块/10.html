@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>按需动态加载模块</title>
+</head>
+<body>
+    <button>hello!!</button>
+</body>
+<script type="module">
+    //模块的导入必须处在顶层
+    // if(true){
+    //     import { site, url } from './10.html';
+    // }
+    document.querySelector('button').addEventListener('click', () => {
+        //import { site, url } from './10.html'; error
+        //此时可以使用import函数按需加载模块 返回promise对象，成功的时候值就是模块的接口对象(可以使用展开语法)
+        import('./10.js').then(({ site, url, default: say }) => {
+            console.log(site, url);
+            // console.log(say);
+            say();
+        });
+    })
+</script>
+</html>
