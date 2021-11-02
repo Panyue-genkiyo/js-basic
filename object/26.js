@@ -1,5 +1,4 @@
 //json转化为js可操作类型
-
 let h = {
     title: 'learning js', 
     url: 'www.learning-js.com',
@@ -20,3 +19,5 @@ let obj = JSON.parse(json, (key, value) => {
     return value
 });
 console.log(obj.title); 
+
+
