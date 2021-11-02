@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>异步加载图片</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 异步加载图片
+    // 参数：
+    // url: 图片地址
+    // callback: 回调函数
+    function loadImage(url, callback, rejecter) {
+        var img = new Image();
+        img.onload = function() {
+            callback(img);
+        }
+        img.onerror = rejecter;
+        img.src = url;
+    }
+
+    // 加载图片
+    loadImage('http://www.baidu.com/img/bd_logo1.png', function(img) {
+        //图片加载完了 异步任务队列
+        console.log(img);
+        document.body.appendChild(img); 
+    }, ()=>{
+        //任务 任务轮询
+        console.log('图片加载失败');
+    });
+
+    //主线程
+    console.log('hello'); //同步执行 先执行
+
+</script>
+</html>
