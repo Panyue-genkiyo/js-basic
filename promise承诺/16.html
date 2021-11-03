@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>finally实现异步加载动画</title>
+    <style>
+        div:nth-child(1){
+            width: 100px;
+            height: 100px;
+            background: red;
+            color:#fff;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="py">loading...</div>
+</body>
+<script src="./ajax处理异步请求任务/ajax.js"></script>
+<script>
+    // let p = new Promise((resolve, reject) => {
+    //     // resolve(1)
+    //     reject('something wrong has been happened')
+    // })
+    // .then(value => console.log(value))
+    // .catch(err => console.log(err))
+    // .finally(() => {
+    //     //不管是成功还是失败，都会执行
+    //     console.log('final')
+    // })
+    
+    let url = 'http://localhost:5002/api';
+    ajax(`${url}/students/${2}`)
+    .then(value => console.log(value))
+    .catch(error => {
+       if(error instanceof ParamError){
+           console.log(error.message);
+       }else if(error instanceof HttpError){
+           alert('用户不存在');
+       }else{
+           console.log(error);
+       }
+    })
+    .finally(() => {
+        //无论请求成功还是失败，最后都让loading框消失
+        py.style.display = 'none';
+    });
+    
+</script>
+</html>
