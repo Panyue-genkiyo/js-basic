@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise多种错误检测与catch使用</title>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript">
+    new Promise(( resolve, reject ) => {
+        // reject('errror');
+        // reject(new Error('error')); 
+        //我们直接抛出的错误也会被then处理函数给接住
+        // throw new Error('message !!') ok
+        // hd + 1; //此时语法错误也可被then的第二个回调函数给捕获到
+        // reject('error happened')
+        resolve(1);
+    })
+    .then(
+        value =>  {
+           return new Promise((resolve, reject) => {
+                reject(new Error('error'))
+                // resolve(1);
+            });
+        },
+    )
+    .then(value => {
+         console.log(value);
+    })
+    .catch(error => {
+        //统一对错误进行处理
+        //catch 最好放在最后的位置 放大中间导致后面的reject没有被catch到
+        //如果catch之前有错误处理的回调则直接被回调捕获到,不用进入catch
+        console.log('error '+error);
+    });
+</script>
+</html>
