@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise.resolve缓存后台数据</title>
+</head>
+<body>
+    
+</body>
+<script src="./ajax处理异步请求任务/ajax.js"></script>
+<script>
+    //Promise.resolve() 默认是成功的
+    // console.log(Promise.resolve(1)); //status:fullfilled
+    // Promise.resolve('success').then(value => {
+    //     console.log(value);
+    // })
+
+    Promise.py = function(name){
+        return new Promise(resolve => {
+            return resolve(name);
+        })
+    }
+    
+    console.log(Promise.py('py')) //resolve状态
+
+    //缓存数据 提高页面响应速度
+    function query(id){
+        //创建缓存
+        const cache = query.cache || (query.cache = new Map());
+        if(cache.has(id)){
+            console.log('get data from cache')
+            //请求已存在于缓存中的数据，则直接返回缓存中的数据,利用promise.resolve的特性
+            return Promise.resolve(cache.get(id));
+        }
+        let url = 'http://localhost:5002/api';
+        //这里的then返回的promise状态为resolved
+        return ajax(`${url}/students/${id}`).then(student => {
+             cache.set(id, student);
+             console.log('get data from remote server by requesting it')
+             return student;
+        });
+    }
+    
+    setInterval(() => {
+        query(1)
+        .then(user => {
+            console.log(user);
+        });
+    }, 3000)
+    
+
+    
+</script>
+</html>
