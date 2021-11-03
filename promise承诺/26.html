@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise队列原理</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //promise队列， 我的下一个promise要等我上一个promise执行完再接着走
+    let promise = Promise.resolve('hello js');
+    // promise.then(value => {
+    //     //队列下一个promise总在等前一个promise完成
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //            console.log(1);
+    //            resolve();
+    //         },1000);
+    //     })
+    // })
+    // .then(v => {
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //            console.log(2);
+    //            resolve();
+    //         },1000);
+    //     })
+    // })
+
+    //或者赋值的方式也能实现promise队列 不用链式
+    promise = promise.then(value => {
+        //队列下一个promise总在等前一个promise完成
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+               console.log(1);
+               resolve();
+            },1000);
+        })
+    })
+    promise = promise.then(v => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+               console.log(2);
+               resolve();
+            },1000);
+        })
+    });
+</script>
+</html>
