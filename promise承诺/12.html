@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>其他类型的promise封装</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let p1 = new Promise(function(resolve, reject) {
+        resolve('fullfilled');
+    }).then(
+        value => {
+            // return new Promise(function(resolve, reject) {
+            //     resolve('SUCCESS');
+            // });
+            // return {
+            //     name: 'hello', //普通的对象then在那边就会拿到这个对象
+            //     //但如果是一个含有then方法的普通对象。会默认被封装成promise对象
+            //     then(resolve, reject){
+            //         // resolve('success');
+            //         setTimeout(() => {
+            //             resolve(this.name);
+            //         },2000)
+            //     }
+            // }
+            //类也是一样的,只要含有then方法都会默认被封装成promise对象
+            // class Hd {
+            //     name = 'never give up'; 
+            //     then(resolve, reject){
+            //         setTimeout(() => {
+            //             resolve(this.name);
+            //         },2000);
+            //     }
+            // }
+            // return new Hd();
+
+            //有静态方法的类也是ok的
+            //因为这里这个then方法是放在类对象的原型(Hd.__proto__)上的，所以不用new对象返回。这里直接把这个类封装为一个promise
+            // return class Hd {
+            //     name = 'never give up'; 
+            //     static then(resolve, reject){
+            //         setTimeout(() => {
+            //             console.log(this === Hd); //true
+            //             resolve(this.name);
+            //         },2000);
+            //     }
+            // }
+
+            let a = {
+                name: 'hello a',
+                then(resolve, reject){
+                    setTimeout(() => {
+                        resolve(this.name);
+                    },2000)
+                }
+            }
+            let b = {
+                name: 'hello b'
+            }
+
+            Object.setPrototypeOf(b, a);
+            return b; //这个对象的原型上有then方法也是ok的，也会被封装为promise对象被下一个then方法处理
+         },
+        error => {}
+    ).then(
+        value => console.log(value),
+        error => console.log(error),
+    )
+</script>
+</html>
