@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>then返回值的处理技巧</title>
+</head>
+<body>
+    
+</body>
+<script>
+     let p1 = new Promise((resolve, reject) => {
+        //  resolve('fullfilled');
+        // reject('error！')
+        resolve('success')
+     }).then(
+         value => {
+             //注意then返回的也是一个promise
+             //return 'py'; //默认返回resolve的promise，值为py，可被下一个then处理//链式任务
+
+             //如果返回的是一个promise 可被下一个then处理，到底是成功的回调函数还是失败的回调函数,取决于你这个promise的状态
+             //一定要把这个promise return出来才表示这个promise要被下一个连锁的then来处理，否则它将变成一个单独的promise
+             return new Promise((resolve, reject) => {
+                 //resolve('解决'); //下一个then拿到的value就是解决了
+                // reject('失败');
+                //让这个promise先pending一段时间，然后再resolve 下面的then必须要等到该promise执行完成才能执行
+                setTimeout(() => reject('oops, error happened'), 3000);
+             })
+             .then(
+             a => console.log('hello'), 
+             r => {
+                return new Promise((resolve, reject) => {
+                     console.log(r);
+                     setTimeout(() => reject('error happened!'), 3000);
+                })
+             }
+            ); 
+         },
+         error => console.error(error)
+     ).then(value => {
+          //永远注意下一个then永远是对你前面返回的promise进行处理的
+         console.log(value);
+     }, error => console.log(error));
+</script>
+</html>
