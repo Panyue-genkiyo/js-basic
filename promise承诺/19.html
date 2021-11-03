@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise构造扁平化的setInterval</title>
+    <style>
+        *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body{
+          background: #f5f5f5;
+        }
+        nav{
+            width: 200px;
+            height: 200px;
+            background: blueviolet;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <nav></nav>
+</body>
+<script>
+    //扁平化的方式少了回调函数的嵌套 条理更加清楚
+    function interval(delay = 1000, callback){
+        return new Promise(resolve => {
+           let id = setInterval(() => {
+              callback(id, resolve); 
+           }, delay);
+        });
+    }
+    interval(100, (id, resolve) => {
+        // console.log(12);
+        // clearInterval(id);
+        // resolve('success!!');
+        let nav = document.querySelector('nav');
+        let left = parseInt(window.getComputedStyle(nav).left);
+        nav.style.left  = left + 10 + 'px';
+        if(left > 200){
+            clearInterval(id);
+            resolve(nav);
+        }
+    })
+    .then(nav => {
+       return interval(100, (id, resolve) => {
+              let width = parseInt(window.getComputedStyle(nav).width);
+              nav.style.width = width -  10 + 'px';
+              if(width <= 20){
+                  clearInterval(id);
+                  resolve(nav)
+            }
+       }) 
+    })
+    .then(nav => {
+        nav.style.background = 'red';
+    });
+</script>
+</html>
