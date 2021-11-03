@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise.then的值也是一个promise</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //
+    let p1 = new Promise(function(resolve, reject) {
+        resolve('fullfilled');
+    });
+
+    //每一个then返回的也是promise
+    let p2 = p1.then(
+        value => console.log(value),
+        error => console.log(error)
+    );
+    // ).then(
+    //     //默认状态返回一个成功的promise
+    //     //如果你没返回相当于再前一个的promise里面resolve(undefined);
+    //     a => console.log('success'),
+    //     b => console.log('error')
+    // );
+
+    
+    // console.log(p1); //此时再主线程里，p1已经resolve了，then方法被推入微任务队列，但是P1的状态的是fulfilled
+    // console.log(p2); //但p2的状态还是pending，因为p1的then方法还没有执行完，所以p2的状态还是pending
+    
+    // //宏任务
+    setTimeout(() => {
+        //同步 微任务 宏任务
+        //这里在微任务中已经执行了p1的then方法，所以p1的状态是fulfilled，p2的状态是fulfilled p2此时默认resolve(undefined)
+        console.log(p1);
+        console.log(p2);  
+    });
+</script>
+</html>
