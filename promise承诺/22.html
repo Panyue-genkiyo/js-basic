@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise.reject的使用</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // let hd = {
+    //     //因为存在then方法，所以它被封装为了promise对象
+    //     then(resolve, reject){
+    //         resolve('success');
+    //     }
+    // }
+    // Promise.resolve(hd)
+    //        .then(res => {
+    //            console.log(res);
+    //        })
+   //直接失败的promise       
+//    Promise.reject('fail')
+//             .then(res => {
+//                 console.log('success:',res);
+//             })
+//             .catch(err => {
+//                 console.log('err:',err);
+//             });
+   
+    new Promise((resolve, reject) => {
+        resolve('successss');
+    }).then(res => {
+        if(res !== 'success'){
+            // throw new Error('error!')
+            return Promise.reject('参数错误'); //promise.reject()就等于抛出错误 就是一个状态为reject的promise，需要返回出去被catch捕获
+        }
+    }).catch(err => console.log('err:',err))
+
+</script>
+</html>
