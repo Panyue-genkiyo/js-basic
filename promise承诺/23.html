@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise.all批量获取数据</title>
+</head>
+<body>
+    
+</body>
+<script src='./ajax处理异步请求任务/ajax.js'>
+</script>
+<script type="text/javascript">
+    //批量获取promise
+    // const hdcms_1 = new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //         resolve('第一个异步');
+    //     },1000);
+    // })
+
+    // const hdcms_2 = new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //         reject('第二个异步');
+    //     },1000);
+    // })
+    // .catch(() => {
+    //     console.log('error');
+    //     //如果你在这儿处理了错误，相当于直接给你返回了Promise.resolve(undefined) 即没有值的解决状态promise(resolve)
+    // });
+
+    // //多个promise有一个返回拒绝的状态，则promise.all的整体状态就是拒绝，只有全部resolved，最终结果才是resolved
+    // Promise.all([ hdcms_1, hdcms_2 ])
+    //        .then(result => {
+    //             //value为包含每个promise返回的数组
+    //             console.log(result); //['第一个异步', undefined]
+    //        })
+    //        .catch(error => {
+    //            //处理多个promise中reject的那个
+    //            console.log(error);
+    //        })
+  
+    //批量获取学生
+     function getStudents(...stuId){
+         const promises = stuId.map(id => {
+             return ajax(`http://localhost:5002/api/students/${id}`);
+         });
+         return Promise.all(promises);
+     }
+
+     function getGrades(stuNams){
+         const promises = stuNams.map(stun => ajax(`http://localhost:5002/api/grades?name=${stun}`));
+         return Promise.all(promises);
+     }
+      
+     getStudents(1,2).then(stus => {
+          return stus.map(stu => stu.name);
+     })
+     .then(stus => getGrades(stus))
+     .then(grades => console.log(grades)); //获取学生成绩
+     
+</script>
+</html>
