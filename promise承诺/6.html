@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宏任务和微任务的优先级</title>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript">
+   console.log('hhh'); //立即执行
+   setTimeout(function(){
+       console.log('setTimeout'); //推到宏任务队列准备执行
+   });
+
+   new Promise(function(resolve, reject){
+       console.log('Promise'); //同步的 
+       resolve('then');
+   }).then((value) => {
+       console.log('then success'); //推到微任务队列准备执行
+   });
+
+   //hhh->Promise->then success->setTimeout 同步->微任务->宏任务 
+   //ありがとう　今までの言語では、宏任务は微任务より先に処理される
+　　
+</script>
+</html>
