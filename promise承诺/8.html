@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise的单一状态和状态中转</title>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript">
+    let p1 = new Promise(function(resolve, reject){
+        // resolve('成功');
+        // reject('失败');
+        // setTimeout(function(){
+        //     resolve('成功');
+        // }, 1000);
+    }).then(null, e => {});
+    new Promise((resolve, reject) => {
+        //resolve(p1); //如果参数的值是promise,那我们同样需要等待该promise执行完毕获得状态,此时传递给后面的状态就是p1的状态
+        resolve('fulfilled'); //状态一旦发生改变是不可逆的 注意 promise转态不可逆单一的
+        // reject('error') not work!!
+    }).then(
+        //微任务
+        msg => {
+            console.log('success',msg);
+        }, 
+        error => {
+            console.log('error',error);
+        }
+    );
+    console.log('start');
+</script>
+</html>
