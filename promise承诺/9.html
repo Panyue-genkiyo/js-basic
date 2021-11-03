@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise then的基本语法</title>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript">
+    new Promise(function(resolve, reject){
+        //执行者
+        //你不发送resolve或者reject的信号的话，该promise一直处在pending状态
+        // resolve('somthing has been done!!');
+        reject('something has been rejected!!');
+    })
+    //.then() //中间的then如果你没有做任何处理，则它会一直向后传递 (也就是说保持上述的reject的promise传递下去)
+    .then(null, a => {
+        console.log('中途处理了失败的状态',a);
+        //注意此时再传递下去的promise的状态是resolve的, 如果你不手动指定的话
+    })
+    .then(function(value){
+        //成功执行
+        console.log('success:', value);
+    },reason => {
+        //失败执行
+        console.log('error: ', reason);
+    });
+</script>
+</html>
