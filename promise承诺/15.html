@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义错误处理</title>
+</head>
+<body>
+    
+</body>
+<script src="./ajax处理异步请求任务/ajax.js">
+</script>
+<script type="text/javascript">
+
+    let url = 'http://localhost:5002/api';
+    ajax(`${url}/students/${2}`)
+    .then(value => console.log(value))
+    .catch(error => {
+       if(error instanceof ParamError){
+           console.log(error.message);
+       }else if(error instanceof HttpError){
+           alert('用户不存在');
+       }else{
+           console.log(error);
+       }
+    });
+    
+</script>
+</html>
