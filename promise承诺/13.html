@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用promise封装ajax请求</title>
+</head>
+<body>
+    
+</body>
+<script src="./ajax处理异步请求任务/ajax.js"></script>
+<script>
+    // 使用promise封装ajax请求
+    // new Promise(( resolve, reject ) => {
+    //     resolve('success');   
+    // }).then(value => console.log(value));
+    
+    // function request(){
+    //    return new Promise((resolve, reject) => {
+    //        setTimeout(() => {
+    //            resolve('success');
+    //        }, 2000);
+    //    });
+    // }
+
+    let url = `http://localhost:5002/api`;
+    ajax(`${url}/students/${2}`)
+        .then(user =>  ajax(`${url}/grades?name=${user.name}`))
+        .then(grades => console.log(grades))
+     
+</script>
+</html>
