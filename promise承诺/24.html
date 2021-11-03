@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise.allSettled</title>
+</head>
+<body>
+    
+</body>
+<script src="./ajax处理异步请求任务/ajax.js"></script>
+<script>
+    //promise.allsettled()的使用
+    
+    // const p1 = new Promise((resolve, reject) => {
+    //     resolve('resolved!')
+    // });
+
+    // const p2 = new Promise((resolve, reject) => {
+    //     reject('rejected!')
+    // });
+    
+    // Promise.allSettled([p1, p2]).then(results => {
+    //     //不同于promise.all,promise.allSettled会把所有promise的结果都返回
+    //     console.log(results);
+    // });
+
+    //即使是没有找到用户，promise.allSettled也不会丢弃他们，而是全部保留，只不过没有找到用户的状态变为rejected
+    const promises = [1,2,3].map(id => ajax(`http://localhost:5002/api/students/${id}`));
+    Promise.allSettled(promises).then(results => {
+        // console.log(results);
+        //筛选出那些成功找到的用户，也就是说status为fulfilled的promise
+        console.log(results.filter(result => result.status === 'fulfilled'));    
+    });
+</script>
+</html>
