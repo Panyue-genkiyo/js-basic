@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宏任务的提升</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let promise  = new Promise(function(resolve, reject) {
+        // 系统在这里执行的时候是同步的
+        // 可以在这里执行一些异步的操作
+        setTimeout(function() {
+            // console.log('setTimeout');   
+            // resolve(); //宏任务队列  //这时候微任务还没被创建 没有被推到微任务队列中
+            // 顺序改变也不影响执行结果 因为此时宏任务已经拿到了主线程所以不会影响结果 
+            resolve(); //下次轮询到微任务队列才会then中的方法才会被执行
+            console.log('setTimeout');
+        }, 0);
+        console.log('test.com'); 
+    }).then(() => {
+        console.log('success');
+    });
+
+    console.log('xxxx');
+
+    //顺序: test.com -> xxxx -> setTimeout -> success
+</script>
+</html>
