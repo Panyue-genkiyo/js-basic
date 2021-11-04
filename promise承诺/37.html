@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async基本错误处理</title>
+</head>
+<body>
+
+</body>
+<script src="./ajax处理异步请求任务/ajax.js"></script>
+<script>
+    // new Promise((resolve, reject) => {
+    //     // throw new Error('something has been broken')
+    //     //cade(); //这个错误也是可以被捕获的，promise内部采用了try catch
+    // }).catch(err => console.log(err))
+
+    async function hd(id){
+        // console.log(A);
+        //throw new Error('something has been broken'); //OK 抛的错误在async函数的catch中依然可以被catch到
+        return ajax(`http://localhost:5002/api/students/${id}`); //异步的错误也可以被捕获到
+    }
+
+    hd(4).then(v => console.log(v)).catch(err => console.log(err)) //ok 这里也能铺货到这个错误
+    
+</script>
+</html>
