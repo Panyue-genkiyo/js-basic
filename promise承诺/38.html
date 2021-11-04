@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标准的await错误处理流程</title>
+</head>
+<body>
+    
+</body>
+<script src='./ajax处理异步请求任务/ajax.js'></script>
+<script>
+    async function hd(id){
+        try{
+             //也可以在内部用try catch去捕获await中发生的错误
+             let student = await ajax(`http://localhost:5002/api/students/${id}`);
+             let lessons = await ajax(`http://localhost:5002/api/grades?name=${student.name}`);
+             return lessons;
+        }catch(error){
+             console.log(error.message);
+        }
+        //处理错误之后依然可以继续走下去
+        console.log('111');
+    }
+        
+
+    hd(1).then(res=>{
+        console.log(res);
+    });
+    // }).catch(err=>{
+    //     console.log(err.message); //这里也可以接到我们await中出现的错误
+    // })
+    
+</script>
+</html>
