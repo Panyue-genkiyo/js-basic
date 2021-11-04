@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>await的并行执行</title>
+</head>
+<body>
+    
+</body>
+<script>
+      
+    function p1(){
+        return new Promise(function(resolve,reject){
+            setTimeout(function(){
+                resolve('p1');
+            },1000);
+        });
+    }
+
+    function p2(){
+        return new Promise(function(resolve,reject){
+            setTimeout(function(){
+                resolve('p2');
+            },1000);
+        });
+    }
+
+    async function hd(){
+        //此时这两个promise不是并行执行的，第二个await需要等上一个await
+        // let h1 = await p1();
+        // let h2 = await p2();
+        // return [h1, h2];
+        
+        // let h1 = p1();
+        // let h2 = p2();
+        // let h1_value = await h1;
+        // let h2_value = await h2;
+        
+        //也可以使用promise.all() 来使两个promise并行 即下一个await操作不用等上一个await操作
+        let [h1_value, h2_value] = await Promise.all([p1(),p2()]); 
+    
+        console.log(h1_value,h2_value); //同时可看到结果说明上面的promise没有加await代表并行，适用于前后两个没有关系的promise
+
+    }
+    
+    hd().then(value => console.log(value));
+    
+
+
+</script>
+</html>
