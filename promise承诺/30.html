@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async await语法糖</title>
+</head>
+<body>
+
+</body>
+<script>
+    //async await语法糖
+    // new Promise((resolve, reject) => {
+    //     console.log('hello');
+    //     resolve('world');
+    // }).then(value => {
+    //     console.log(value);
+    // })
+
+
+    //async 返回的结果是一个promise
+    async function hd() {
+        // return  new Promise((resolve, reject) => {
+        //        console.log('hello');
+        //        resolve('world');
+        //  });
+
+        //await 就是then的语法糖，等待promise某一个promise的结果
+        // let name = await 'hello';
+        // console.log(name);
+
+        let name = await new Promise((resolve, _) => {
+             setTimeout(() => {
+                 resolve('panyue')
+             },2000);
+        });
+
+        let site = await new Promise((resolve, _) => {
+            setTimeout(() => {
+                resolve(`${name}, www.google.com.com.tw`)
+            },2000)
+        })
+
+        console.log(site); //等待4s
+        //async await语法糖让异步代码看起来同步化
+
+        // console.log(name);
+
+    }
+
+
+    hd(); //fullfilled undefined
+</script>
+</html>
