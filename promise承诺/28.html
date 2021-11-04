@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reduce封装promise队列</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function queue(num){
+       num.reduce((promise, cur) => {
+          return promise.then(_ => {
+              return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                    console.log(cur);
+                    resolve();
+                  },1000);
+               })
+            });
+       }, Promise.resolve())
+    }   
+
+    queue([1,2,4,5,6,7,8])
+
+</script>
+</html>
