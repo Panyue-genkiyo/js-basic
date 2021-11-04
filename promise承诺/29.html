@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用队列渲染数据</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+class ParamError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'ParamError';
+    }
+}
+
+class HttpError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'HttpError';
+    }
+}
+
+    class User{
+        ajax(id){
+            let url = `http://localhost:5002/api/students`
+            return new Promise(function(resolve, reject) {
+                if(!/^https?/i.test(url)){
+                    throw new ParamError('URL必须以http或https开头');
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', `${url}/${id}`);
+                xhr.send();
+                xhr.onload = function () {
+                    if(this.status === 200){
+                        setTimeout(() => {
+                            resolve(JSON.parse(this.response));            
+                        }, 1000)
+                    }else if(this.status === 404){
+                        reject(new HttpError('查询的用户不存在'));
+                    }
+                }
+                xhr.onerror = function(){
+                    reject(this);
+                }
+            });
+        }
+        
+        render(ids){
+           ids.reduce((promise, id) => {
+               //队列形式获取数据
+               return promise.then(() =>  this.ajax(id))
+                             .then((user) => this.view(user));
+           }, Promise.resolve())
+        }
+    
+        //返回视图
+        view(user){
+           return new Promise(resolve => {
+               console.log(user);
+               let h2 = document.createElement('h2');
+               h2.innerHTML = user.name;
+               document.body.appendChild(h2);
+               resolve(); //改变状态  让上面的ajax中的reduce接着处理下一个promise
+           })
+        }
+
+    }
+
+    new User().render([1,2]);
+</script>
+</html>
