@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async await执行异步请求</title>
+</head>
+<body>
+    
+</body>
+<script src='./ajax处理异步请求任务/ajax.js'></script>
+<script>
+    async function get(id){
+        //await必须放在async函数里面
+        let url = `http://localhost:5002/api`;
+        //把await想象成一个又一个then方法
+        const user = await ajax(`${url}/students/${id}`);
+        const grades = await ajax(`${url}/grades?name=${user.name}`);
+        return grades;
+    }
+    
+    get(1).then(grades => {
+        console.log(grades);
+    })
+</script>
+</html>
