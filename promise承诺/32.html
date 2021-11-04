@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async延时函数</title>
+</head>
+<body>
+    
+</body>
+<script>
+    async function sleep(delay = 2000 ){
+        return new Promise(function(resolve, reject) {
+            setTimeout(() => {
+                //让它两秒状态改变一次，睡2s
+                resolve();
+            },delay)   
+        })
+     }
+
+
+     async function show(){
+         for(const v of [1,2,3,4,5]){
+            await sleep(); //每延迟两秒则执行一次 promise状态不改变await就在这里暂停
+            console.log(v);
+        }
+     }
+
+     show();
+     
+</script>
+</html>
