@@ -15,6 +15,10 @@ const student = [
     {
         id:2,
         name: '李四'
+    },
+    { 
+        id:3,
+        name: '赵六'
     }
 ];
 
@@ -31,6 +35,13 @@ const grades = [
         grade: {
            ts: 56,
            js: 87
+        }
+    },
+    {
+        name: '赵六',
+        grade: {
+            ts: 90,
+            js: 54
         }
     }
 ]
