@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>异步封装在类内部</title>
+</head>
+<body>
+    
+</body>
+<script src="./ajax处理异步请求任务/ajax.js"></script>
+<script>
+    class User{
+        
+         async get(id){
+            let stu = await ajax(`http://localhost:5002/api/students/${id}`);
+            console.log(stu);
+            return this.getScore(stu.name);
+          }
+
+          async getScore(name){
+            let score = await ajax(`http://localhost:5002/api/grades?name=${name}`);
+            return score;
+          }
+     }
+
+
+    new User().get(1).then(res => {
+        console.log(res);
+    })
+    
+</script>
+</html>
