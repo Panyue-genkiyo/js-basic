@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async和await的几种声明</title>
+</head>
+<body>
+    
+</body>
+<script src='./ajax处理异步请求任务/ajax.js'></script>
+<script>
+    // async和await的几种声明
+    // 1. async function
+    async function f1() {
+        return await ajax(`http://localhost:5002/api/students/1`);
+    }
+
+    f1().then(res => {
+        console.log(res);
+    });
+
+    //2对象
+    let hd = {
+        async get(id){
+            return await ajax(`http://localhost:5002/api/students/${id}`);
+        }
+    }
+
+    hd.get(2).then(res => {
+        console.log(res);
+    });
+
+    //类
+    class User{
+        async get(id){
+            return await ajax(`http://localhost:5002/api/students/${id}`);
+        } 
+    }
+
+    new User().get(3).then(res => {console.log(res)});
+    
+</script>
+</html>
