@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map实现promsie队列</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //hello
+    // function queue(num){
+    //    let promise = Promise.resolve();
+    //    num.map(num => {
+    //        //一次向下传递promise 必须等到前一个完成才能继续下一个
+    //        promise = promise.then(() => {
+    //            return new Promise(resolve => {
+    //                 setTimeout(() => {
+    //                     console.log(num);
+    //                     resolve();
+    //                  }, 1000);
+    //              })
+    //           })
+    //     });
+    // }   
+
+
+    // queue([1,2,3,4,5,6,7,8,9,10]);
+
+    async function promiseQueue(...promises){
+          console.log(promises);
+          let p1 = Promise.resolve();
+          promises.map(promise => {
+              p1 = p1.then((value) => {
+                  if(value) console.log(value);
+                  return promise;
+              });
+          });
+    };
+
+    promiseQueue({
+       then(resolve, reject){
+              setTimeout(() => {
+                  resolve({name: 'hello'});
+              }, 1000);
+       }   
+    }, {
+        then(resolve, reject){
+            setTimeout(() => {
+                resolve({name: 'world'});
+            },1000);
+        }
+},  {
+        then(resolve, reject){
+            setTimeout(() => {
+                resolve({name: 'javascript'});
+            },1000);
+        }
+    });
+
+
+
+    
+</script>
+</html>
