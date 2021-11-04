@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class类和async await的结合使用</title>
+</head>
+<body>
+    
+</body>
+<script src='./ajax处理异步请求任务/ajax.js'></script>
+<script>
+    class User{
+        constructor(id){
+            this.id = id;
+        }
+        then(resolve, reject){
+           let stu = ajax(`http://localhost:5002/api/students/${this.id}`);
+           resolve(stu);
+        }
+        
+    }
+
+    async function get(){
+        let stu = await new User(1);
+        console.log(stu);
+    }
+
+    get()
+    
+</script>
+</html>
