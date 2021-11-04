@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>await制作加载进度条</title>
+    <style>
+        #loading{
+            height:50px;
+            background:#8e44ad;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size:30px;
+            color:#fff;
+        }
+    </style>
+</head>
+
+<body>
+    <nav id='loading'>0%</nav>
+</body>
+<script src="./ajax处理异步请求任务/ajax.js"></script>
+<script>
+    function query(id){
+        return ajax(`http://localhost:5002/api/students/${id}`);
+    }
+
+    async function loadUser(ids){
+        for(let i = 0 ; i < ids.length ; i++){
+            let user = await query(ids[i]);
+            console.log(user);
+            let progress = (i + 1) / ids.length * 100;
+            loading.style.width = progress + '%';
+            loading.innerHTML = `${progress.toFixed(2)}%`;
+        }
+    }
+
+    loadUser([1,2,3]);
+
+</script>
+</html>
