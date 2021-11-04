@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>进度条实例体验任务轮询</title>
+    <style>
+        #py {
+            height: 50px;
+            background:skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="py"></div>
+</body>
+<script>
+    function handle(){
+        let i = 0;
+        (function run(){
+            py.innerHTML = i;
+            py.style.width = i + '%';
+            // console.log(3);
+            if(++i <= 100){
+                // console.log(i);
+                //当i大于100时,我们不会再宏任务队列里抛任务了
+                setTimeout(run, 20); 
+            }
+        })();
+    }
+    handle();
+</script>
+</html>
