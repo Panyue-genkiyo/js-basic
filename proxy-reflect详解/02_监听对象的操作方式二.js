@@ -15,6 +15,7 @@ const objProxy = new Proxy(obj,{
     },
     //设置值时的捕获器
     //目标对象,目标key,修改之后的newValue
+    //注意新增属性也是可以在这个set捕获器中监听到的
     set(target,key,newValue){
         console.log('set:',key, newValue)
         target[key] = newValue;
