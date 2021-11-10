@@ -54,9 +54,9 @@ co(genData); //效果等同于我们自己写的execGenerator函数
 
 //第四种方案 async await(ES8) promise then链式调用的语法糖
 async function genData(){
-    const res1 = await requestData('py'); //第一的next停到第一个yield处 //注意这里返回值是一个promise
-    const res2 = await requestData(res1+'aaa'); //第二个next停到第二个yield处
-    const res3 = await requestData(res2+'ccc'); //第三个next停到第三个yield处
+    const res1 = await requestData('py'); 
+    const res2 = await requestData(res1+'aaa'); 
+    const res3 = await requestData(res2+'ccc');
     console.log(res3);
 }
 
