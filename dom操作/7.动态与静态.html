@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态与静态</title>
+</head>
+<body>
+   <h1>hello</h1>
+   <h1>js</h1>
+   <button id="add">add item</button>
+</body>
+<script>
+    /**
+     通过 getElementsByTagname 等getElementsBy... 函数获取的Nodelist与HTMLCollection集合是动态的，即有元素添加或移动操作将实时反映最新状态。
+     使用getElement...返回的都是动态的集合
+     使用querySelectorAll返回的是静态集合 nodeList(相当于一组快照)
+     #
+     */
+    // let elems = document.getElementsByTagName('h1'); //动态集合 自动更新
+    // console.log(elems); //HTMLCollection(2)// [h1, h1]
+    // let btn = document.querySelector('#add');
+    // btn.addEventListener('click', () => {
+    //     document.body.insertAdjacentHTML('beforeend', '<h1>hello</h1>');
+    //     console.log(elems); //注意是自动更新
+    // });
+
+    // let elems = document.querySelectorAll('h1'); //注意此时这里即使一组静态快照
+    // console.log(elems); //NodeList(2)// [h1, h1]
+    // let btn = document.querySelector('#add');
+    // btn.addEventListener('click', () => {
+    //     document.body.insertAdjacentHTML('beforeend', '<h1>hello</h1>');
+    //     console.log(elems); //不会自动更新 一定注意
+    // });
+
+    //如果我们要保存动态集合上一次的副本，可以使用slice方法
+    let h1Elems = document.getElementsByTagName('h1'); //动态的集合
+    let h1Elems_copy = Array.from(h1Elems).slice(); //转换类数组到数组，再拷贝一份副本
+    //此时尝试添加一个h1
+    document.body.appendChild(document.createElement('h1'));
+    console.log(h1Elems, h1Elems.length); //htmlCollections[h1,h1,h1] 3
+    console.log(h1Elems_copy, h1Elems_copy.length); //[h1,h1] 2 保留住了副本
+</script>
+</html>
