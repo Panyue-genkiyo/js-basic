@@ -14,11 +14,19 @@
 <script>
     //NodeList与HTMLCollection都是包含多个节点标签的集合，大部分功能也是相同的。
     /**
-     * getElementsBy...等方法返回的是HTMLCollection
+     * getElementsBy...类之类的,document.forms、document.forms[0].elements、 document.images、 document.links等方法返回的是HTMLCollection
        querySelectorAll 返回的是 NodeList
        NodeList节点列表是动态的，即内容添加后会动态更新
      */
-     console.log(document.getElementsByTagName('div')) //HTMLCollection
+    /**
+     * nodelist htmlcollection， namednodemap不同点
+     *  NodeList是节点（12种）的集合、HTMLCollection是元素节点的集合、NamedNodeMap是属性节点的集合
+     *  NodeList有静态的、有动态的(childNodes返回动态的NodeList,querySelectorAll(...)返回静态NodeList，类似一组元素的快照)，HTMLCollection和NamedNodeMap都是动态集合
+     * 相同点:
+     *   1. 三者都是类数组对象
+         2. 都有item()方法
+     */
+    console.log(document.getElementsByTagName('div')) //HTMLCollection
      console.log(document.querySelectorAll('div')) //NodeList
      let nodes = document.querySelectorAll('div');
      let hnodes = document.getElementsByTagName('div');
@@ -38,7 +46,6 @@
       console.log(hnodes.py); //name属性为py的div节点
       console.log(hnodes['py']); //同上
       //同时也可以采用索引的方式来处理
-      console.log(hnodes[1]);  //针对上面的就是div#text
-
+      console.log(hnodes[1]);  //针对上面的就是div#text;
 </script>
 </html>
