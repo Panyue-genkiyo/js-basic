@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dom节点之原型链</title>
+</head>
+<body>
+    <h1 id="hello" onclick="this.color('blue')">
+        my js learning
+        <span>hello</span>
+    </h1>
+</body>
+<script> 
+    /**
+     * Object	根对象，提供hasOwnProperty等基本对象操作支持
+       EventTarget	提供addEventListener、removeEventListener等事件支持方法
+       Node	提供firstChild、parentNode等节点操作方法
+       Element	提供getElementsByTagName、querySelector等方法
+       HTMLElement	所有元素的基础类，提供childNodes、nodeType、nodeName、className、nodeName等方法
+       HTMLHeadingElement	Head标题元素类 
+     */
+    // function getProto(el){
+    //   console.log(el.__proto__);
+    //   el.__proto__ ? getProto(el.__proto__) : null;
+    // } 
+    // const h1 = document.getElementById('hello');
+    // getProto(h1);
+    const hello = document.querySelector('#hello');
+    console.log(hello instanceof Object); //true
+    //给标题元素节点原型上加入color方法
+    HTMLHeadingElement.prototype = Object.assign(HTMLHeadingElement.prototype, {
+        color(color){
+            this.style.color = color;
+        },
+        hide(){
+            this.style.display = 'none';
+        }
+    });
+    console.log(hello.attributes[0]); //id
+    // console.log(hello.hasOwnProperty('attributes')); //false
+    // console.log(hello.attributes);
+    console.log(hello.childNodes.length); //3
+</script>
+</html>
