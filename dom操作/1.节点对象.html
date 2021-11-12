@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节点对象</title>
+</head>
+<body>
+    <div id="hello">
+        <!--hello-->
+    </div>
+</body>
+<script>
+     //包括12种类型的节点对象
+    // 常用了节点为document、标签元素节点、文本节点、注释节点
+    // 节点均继承自Node类型，所以拥有相同的属性或方法
+    // document是DOM操作的起始节点
+    console.log(document.nodeType); //9  document节点类型nodeType为9
+    console.log(document.childNodes.item(0).nodeType); //10 <!DOCTYPE html>
+    console.log(document.body.nodeType);  //标签节点的nodeType为1；
+    console.log(hello.attributes[0].nodeType); //id  2 属性节点nodeType的值为2
+    console.log(hello.childNodes[1].nodeType); //8 注释节点的nodeType为8
+    console.log(hello.childNodes[0].nodeType); //3 文本节点的nodeType为3
+</script>
+</html>
