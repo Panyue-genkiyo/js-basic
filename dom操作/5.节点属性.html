@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" hello="hello py">
+        test
+        <div class="py1" data="hd">py.com</div>
+        <div class="py2">py.com</div>
+        <div class="py3"><!--hello!!! this is comment--></div>
+        <span class="test">hello</span>
+        <h1>shiori</h1>
+    </div>
+    <h1>你好<span>never give up</span></h1>
+    <p>random text</p>
+</body>
+<script>
+    //常用节点属性
+    //nodeType
+    /* 
+    1	元素节点
+    2	属性节点
+    3	文本节点
+    8	注释节点
+    9	document对象
+     * 
+     **/
+    const app = document.querySelector('#app');
+    console.log(app.nodeType); //1 元素节点
+    console.log(app.firstChild.nodeType); //3 文本节点
+    console.log(app.attributes.hello.nodeType) //2 属性节点
+    const commentContainer = document.querySelector('.py3');
+    console.log(commentContainer.firstChild.nodeType); //8 注释节点
+
+    //下面是根据指定的 nodeType 递归获取节点元素的示例
+    //递归获取节点元素
+    function all(el, nodeType = 1){
+        const nodes = [];
+        Array.from(el.childNodes).map(n => {
+            if(n.nodeType === nodeType){
+                nodes.push(n);
+            };
+            if(n.nodeType === 1){
+                nodes.push(...all(n, nodeType));
+            }
+        });
+        return nodes;
+    }
+    console.log(all(document.body));
+
+    //Prototype
+    /**
+     * 当然也可以使用对象的原型进行检测
+     * section 、main、aslide 标签的原型对象为HTMLElement
+     * 其他非系统标签的原型对象为HTMLUnknownElement
+     */
+     const h1 = document.querySelector('h1');
+     const p = document.querySelector('p');
+     console.log(h1 instanceof HTMLHeadingElement); //true
+     console.log(p instanceof HTMLHeadingElement); //false HTMLParagraphElement 
+     console.log(p instanceof Element) //true
+
+     //递归获取指定原型的节点
+     function allByPrototype(el, prototype){
+         const nodes = [];
+         Array.from(el.childNodes).map(n => {
+             if(n instanceof prototype){
+                 nodes.push(n);
+             };
+             if(n.nodeType === 1){
+                 nodes.push(...allByPrototype(n, prototype));
+             }
+         });
+         return nodes;
+     }
+   
+     console.log(allByPrototype(document.body,HTMLHeadingElement));
+     console.log(allByPrototype(document.body,HTMLSpanElement));
+
+     //nodeName nodeName指定节点的名称
+     /**
+      * nodeType	nodeName
+          1	     元素名称如DIV
+          2	     属性名称
+          3	     #text
+          8	     #comment
+      **/
+      console.log(app.nodeName); //DIV 大写标签名div
+      console.log(document.querySelector('.test').nodeName); //SPAN 大写标签名span
+      console.log(app.firstChild.nodeName); //文本节点 #test
+      console.log(app.attributes.hello.nodeName); //属性节点的nodeName为属性名 hello
+      console.log(commentContainer.firstChild.nodeName); //注释节点的nodeName为#comment
+
+      //tagName
+      //nodeName可以获取不限于元素的节点名，tagName仅能用于获取元素标签节点的名称
+      /**
+       *  tagName存在于Element类的原型中
+          属性节点、文本、注释节点值为 undefined
+          获取的值为大写的标签名
+       **/
+      console.log(app.tagName); //DIV 大写标签名div
+      console.log(document.querySelector('.test').tagName); //SPAN 大写标签名span
+      console.log(app.firstChild.tagName); //文本节点 undefined
+      console.log(app.attributes.hello.tagName); //属性节点 undefined
+      console.log(commentContainer.firstChild.tagName); //注释节点 undefined
+
+     //nodeValue
+     //使用nodeValue或data函数获取节点值，也可以使用节点的data属性获取节点内容
+     /**
+      *  nodeType	nodeValue
+         1	          null
+         2	          属性值
+         3           文本内容
+         8	         注释内容
+      *
+      **/
+     //元素节点nodeValue为null
+     console.log(app.nodeValue); //null
+     console.log(h1.nodeValue); //null
+
+     //属性节点nodeValue为属性值
+     console.log(app.attributes.hello.nodeValue); //hello py
+     
+     //文本节点nodeValue为文本内容
+     console.log(app.firstChild.nodeValue); //test
+     
+     //注释节点nodeValue为注释内容
+     console.log(commentContainer.firstChild.nodeValue); //这是注释 hello!!! this is comment
+    
+     //使用data属性可以获取文本与注释内容
+     console.log(app.firstChild.data); //test
+     console.log(commentContainer.firstChild.data); //这是注释 hello!!! this is comment
+
+
+     //树状节点方法来复习常用节点属性
+     function tree(el){
+         return Array.from(el.childNodes)
+                .filter(n => n.tagName)  //只保留下元素节点
+                .map(node => ({
+                    nodeName: node.nodeName,
+                    children: tree(node) //递归
+                })); 
+     }
+      console.log(tree(document.body));
+</script>     
+</html>
