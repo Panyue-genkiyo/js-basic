@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="hello">
+         <a href="">js</a>
+         <a href="" name="n2" test="py">py</a>
+         <img src="" alt="" />
+         <img src="" alt="" />
+         <img src="" alt="" />
+    </div>
+</body>
+<script>
+//     方法	说明
+// document	document是DOM操作的起始节点
+// document.documentElement	文档节点即html标签节点
+// document.body	body标签节点
+// document.head	head标签节点
+// document.links	超链接集合
+// document.anchors	所有锚点集合
+// document.forms	form表单集合
+// document.images	图片集合
+
+//document节点
+//获取文档标题
+console.log(document.title)
+
+//设置文档标签
+document.title = '文档标题/py';
+console.log(document.nodeType); //9
+console.log(document.nodeName); //#document
+//获取当前url
+console.log(document.URL);
+//获取域名
+console.log(document.domain); //本机环境 127.0.0.1
+//获取来源地址
+console.log(document.referrer);
+//获取当前文档的编码
+console.log(document.characterSet); //utf-8
+//ID节点
+//直接通过id来获取元素
+console.dir(hello); //这是非标准操作，对浏览器有挑剔
+
+//links节点: 获取所有a标签
+const nodes = document.links
+console.dir(nodes);
+
+//获取图片元素 images;
+const images = document.images;
+console.dir(images);
+
+//通过锚点anchors获取a元素 
+console.dir(document.anchors.n2);
+</script>
+</html>
