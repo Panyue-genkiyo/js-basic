@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节点集合</title>
+</head>
+<body>
+    <div od="hello"></div>
+    <div id="text"></div>
+    <div name="py" ad="py-data"></div>
+</body>
+<script>
+    //NodeList与HTMLCollection都是包含多个节点标签的集合，大部分功能也是相同的。
+    /**
+     * getElementsBy...等方法返回的是HTMLCollection
+       querySelectorAll 返回的是 NodeList
+       NodeList节点列表是动态的，即内容添加后会动态更新
+     */
+     console.log(document.getElementsByTagName('div')) //HTMLCollection
+     console.log(document.querySelectorAll('div')) //NodeList
+     let nodes = document.querySelectorAll('div');
+     let hnodes = document.getElementsByTagName('div');
+     //NodeList与HTMLCollection包含length属性，记录了节点元素的数量
+      for(let i = 0; i < nodes.length; i++){
+          console.log(nodes[i]);
+      }
+      //item方法来访问元素 HTMLCollection和NodeList的item方法
+      console.log(nodes.item(0).attributes.od.nodeValue);
+
+      //HTMLCollection具有namedItem方法可以按name或id属性来获取元素 注意NodeList没有namedItem方法
+      console.dir(hnodes.namedItem('py').attributes.ad.nodeValue); //py-data
+      // console.dir(nodes.namedItem('py').attributes.ad.nodeValue); nodeList不支持namedItem方法
+      //可以使用数组或属性方式获取
+      console.log(hnodes.text); //id属性为text的div节点
+      console.log(hnodes['text']); //同上
+      console.log(hnodes.py); //name属性为py的div节点
+      console.log(hnodes['py']); //同上
+      //同时也可以采用索引的方式来处理
+      console.log(hnodes[1]);  //针对上面的就是div#text
+
+</script>
+</html>
