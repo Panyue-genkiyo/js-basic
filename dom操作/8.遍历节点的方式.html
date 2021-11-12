@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>遍历节点的方式</title>
+</head>
+<body>
+   <div id="py1" od="ht">py1</div>
+   <div id="py2">py2</div>
+</body>
+<script>
+    //forOf
+    //Nodelist与HTMLCollection是类数组的可迭代对象所以可以使用for...of进行遍历
+    // const elems = document.querySelectorAll('div'); ///NodeList
+    // for(let item of elems){
+    //     console.log(item);
+    // }
+
+    // forEach
+    // 注意Nodelist节点列表也可以使用forEach来进行遍历，但HTMLCollection则不可以
+    // const elems = document.querySelectorAll('div'); ///NodeList
+    // // const elems = document.getElementsByTagName('div'); ///error HTMLCollection不能使用forEach的方式来遍历元素
+    // elems.forEach((e, i) => {
+    //     console.log(i,e); //拿到do元素
+    // })
+
+    // call/apply
+    // 节点集合对象原型中不存在map，filter方法，但可以借用Array的原型map方法实现遍历
+    //方法转移
+    // let elems = document.querySelectorAll('div'); ///NodeList
+    // [].map.call(elems, (e, i) => {
+    //     console.log(e,i);
+    // });
+    // elems = [].filter.call(elems, (e, i) => {
+    //     return !e.attributes.od //过滤掉含有属性od的元素
+    // });
+    //console.log(elems)
+
+    // Array.from
+    // Array.from用于将类数组转为组件，并提供第二个迭代函数。所以可以借用Array.from实现遍历
+    //类数组转换为数组
+    // const elems = document.querySelectorAll('div'); ///NodeList
+    // Array.from(elems,(e, i) => {
+    //     console.log(e);
+    // });
+
+    //由于htmlCollection和nodeList都是可迭代的类数组,所以可以使用展开语法
+    // const elems = document.querySelectorAll('div');
+    // [...elems].map(e => {
+    //     e.addEventListener('click',  function(){
+    //         //this为触发该事件的dom对象
+    //         this.style.textTransform = 'uppercase';
+    //     })
+    // });
+</script>
+</html>
