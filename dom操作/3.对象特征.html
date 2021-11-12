@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="hd">hello</h1>
+</body>
+<script>
+     //即然DOM与我们其他JS创建的对象特征相仿，所以也可以为DOM对象添加属性或方法。
+let hd = document.getElementById('hd');
+// hd.id = 'my self'; //可以直接修改id 但不建议这么做
+Object.assign(hd, {
+  //设置标签内容
+   innerHTML: '向军大叔',
+   color: 'red',
+   change() {
+    this.innerHTML = '后盾人'
+    this.style.color = this.color
+   },
+   onclick() {
+    this.change()
+   },
+ });
+
+ //修改元素样式 合并
+ Object.assign(hd.style, {
+     color:"white",
+     background:'#3498db'
+ }); //合并样式属性
+</script>
+</html>
