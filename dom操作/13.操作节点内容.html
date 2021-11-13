@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>操作节点内容的方法</title>
+</head>
+<body>
+<div id="app">
+    <div class="py" data='js learning'>www.text.com</div>
+    <div class="py-test">www.py.com</div>
+    <button>click!!</button>
+    <img src="https://theguideliverpooldo.ams3.digitaloceanspaces.com/2019/10/shutterstock_306761207.jpg" alt="shanghai"/>
+</div>
+<div id="app2">
+    <h1>测试outerHTML</h1>
+</div>
+</body>
+<script>
+    /***
+     * innerHTML
+     inneHTML用于向标签中添加html内容，同时触发浏览器的解析器重绘DOM。
+     下例使用innerHTML获取和设置div内容
+     innerHTML中只解析HTML标签语法，所以其中的 script 不会做为JS处理
+
+     注意innerHTML是重绘节点
+     重绘节点
+     使用innertHTML操作会重绘元素，下面在点击第二次就没有效果了
+     因为对#app内容进行了重绘，即删除原内容然后设置新内容
+     重绘后产生的button对象没有事件
+     重绘后又产生了新img对象，所以在控制台中可看到新图片在加载
+     */
+    let app = document.querySelector('#app');
+    console.log(app.innerHTML);
+    //app.innerHTML = `<h1>${document.querySelector('.py').getAttribute('data')}</h1>`;
+
+    let btn = document.querySelector('button');
+    btn.addEventListener('click',function(){
+        console.log(this.innerHTML); //click!!
+        this.parentElement.innerHTML += '<hr/>你好上海'; //注意页面重绘 图片重新加载
+    });
+
+    /**
+     *  outerHTML
+        outerHTML与innerHTML的区别是包含父标签
+        outerHTML不会删除原来的旧元素
+        只是用新内容替换替换旧内容，旧内容（元素）依然存在
+        下面将div#app替换为新内容
+     */
+
+     let app2 = document.querySelector('#app2');
+     console.log(app2.outerHTML);
+
+     //app2.outerHTML = '<p>替换一切,旧内容依然存在</p>';
+     //console.log(app2.innerHTML); //<h1>测试outerHTML</h1> 旧内容依然被保留
+     //这一点与innerHTML不同注意,innerHTML是页面使用新内容而且原有的获取到的节点(如上的app2)的innerHTML也会获得新的内容
+     //outerHTML是页面更新新的值，而且原有的获取到的节点(如上的app2)的outerHTML保持原有的值不变
+
+    /**
+     * textContent与innerText
+     textContent与innerText是访问或添加文本内容到元素中
+     textContentb部分IE浏览器版本不支持
+     innerText部分FireFox浏览器版本不支持
+     获取时忽略所有标签,只获取文本内容
+     设置时将内容中的标签当文本对待不进行标签解析
+     获取时忽略内容中的所有标签
+     */
+
+     //注意是获取时忽略内容中的所有标签 只获取文本
+     console.log(app.innerText);
+     console.log(app.textContent);
+     //app.textContent = '<h1>shiori</h1>'; //直接被当文本插入id为app的div中
+
+    // outerText
+    // 与innerText差别是会影响所操作的标签
+    const h1 = document.querySelector('#app2>h1');
+    h1.outerText = 'hello'; //外面的h1标签也会被影响
+
+    /**
+     * insertAdjacentText
+     将文本插入到元素指定位置，不会对文本中的标签进行解析，包括以下位置
+     选项	说明
+     beforebegin	元素本身前面
+     afterend	元素本身后面
+     afterbegin	元素内部前面
+     beforeend	元素内部后面
+     */
+     //在app之前插入文本I love u
+     app.insertAdjacentText('beforebegin', '<h1>I love u</h1>'); //不会对标签进行解析
+     //在app里面的后面添加love u
+     app.insertAdjacentText('beforeend', '<span>text insert to app by beforeend</span>')
+</script>
+</html>
