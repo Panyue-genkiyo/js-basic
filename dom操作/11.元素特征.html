@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标准特征</title>
+</head>
+<body>
+<div id="app"  content="后盾人" xs="red" value="88" data-xs="test-py">houdunwang.com</div>
+<div id="app2" data-content="dataset-py" data-color="green" data-never-give-up="don't give up">测试自定义属性集(data-开头)</div>
+<a href="www.py.com" id="never">never</a>
+<div data-widget-name="menu">Choose the genre</div>
+<input id="id" value="hello"/>
+</body>
+<script>
+    /**
+     *  对于标准的属性可以使用DOM属性的方式进行操作，但对于标签的非标准的定制属性则不可以。但JS提供了方法来控制标准或非标准的属性
+     *  可以理解为元素的属性分两个地方保存，DOM属性中记录标准属性，特征中记录标准和定制属性
+        使用特征操作时属性名称不区分大小写
+        特征值都为字符串类型
+     方法	说明
+     getAttribute	获取属性
+     setAttribute	设置属性
+     removeAttribute	删除属性
+     hasAttribute	属性检测
+     **/
+     //特征是可迭代对象，下面使用for...of来进行遍历操作
+     const app = document.querySelector('#app');
+     for(let {name, value} of app.attributes){
+         console.log(name,value); //id-app content-后盾人 xs-red
+     }
+     //属性值都为字符串，所以数值类型需要进行转换
+      let value = ( +app.getAttribute('value') + 1 ) * 100; //89
+     //设置属性
+     app.setAttribute('value', value);
+     //删除属性
+     //使用removeAttribute删除元素的class属性，并通过hasAttribute进行检测删除结果
+     app.removeAttribute('xs');
+     console.log(app.hasAttribute('xs')); //false;
+
+      //特征值与HTML定义是一致的，这和属性值是不同的
+      const a = document.querySelector('#never');
+      console.log(a.href); //特征值
+      console.log(a.getAttribute('href')); //DOM属性值 www.py.com 注意特征值与dom属性值是不一样的
+
+    // attributes
+    // 元素提供了attributes 属性可以只读的获取元素的属性 注意是只读的
+    console.log(app.attributes['data-xs'].nodeValue); //test-py
+
+    /**
+     * 自定义特征
+     虽然可以随意定义特征并使用getAttribute等方法管理，但很容易造成与标签的现在或未来属性重名。建议使用以data-为前缀的自定义特征处理，针对这种定义方式JS也提供了接口方便操作。
+     元素中以data-为前缀的属性会添加到属性集中
+     使用元素的dataset可获取属性集中的属性
+     改变dataset的值也会影响到元素上
+     */
+    const app2 = document.querySelector('#app2');
+    let content = app2.dataset.content; //ok访问到了
+    console.log(content); //dataset-py
+    //app2.innerHTML = `<span style="color:${app2.dataset.color}">${content}</span>`;//ok
+
+    //多个单词的特征使用驼峰命名方式读取
+    console.log(app2.dataset.neverGiveUp); //don't give up
+
+    //改变dataset值也会影响到页面元素上
+    app2.addEventListener('click', function (){
+        this.dataset.color = ['#3498db', '#16a085', '#f1c40f'][Math.floor(Math.random() * 3)]; //随机选取颜色
+        this.style.color = this.dataset.color;
+    });
+
+    /**
+     * 属性同步
+     特征和属性是记录元素属性的两个不同场所，大部分更改会进行同步操作。
+     下面使用属性更改了className，会自动同步到了特征集中，反之亦然
+     注意当一个标准的特性被改变，对应的属性也会自动更新，（除了几个特例）反之亦然。
+     在下面这个示例中，id 被修改为特性，我们可以看到对应的属性也发生了变化。然后反过来也是同样的效果
+     */
+     const input = document.querySelector('#id');
+     input.setAttribute('id', 'test');
+     console.log(input.id); //发生同步
+     //但注意存在例外
+    //但这里也有些例外，例如 input.value 只能从特性同步到属性，反过来则不行：
+    // 特性 => 属性
+    input.setAttribute('value', 'text');
+    console.log(input.value); // text ok 特性转属性ok了
+    //但是反过来不ok
+    input.value = 'hello';
+    console.log(input.getAttribute('value')); //text，并没有同步过来
+
+    let div = document.querySelector("div[data-widget-name]");
+    console.log(div);
+    console.log(div.dataset.widgetName); //menu
+
+</script>
+</html>
