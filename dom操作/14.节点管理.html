@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>节点的管理(添加、删除、替换等操作)</title>
+</head>
+<body>
+<div id="app">
+    hello js!!!
+</div>
+</body>
+<script>
+    /**
+     * 节点管理:(包括节点删除、替换、插入等操作)
+     * 推荐方法
+      方法	说明
+      append	节点尾部添加新节点或字符串
+      prepend	节点开始添加新节点或字符串
+      before	节点前面添加新节点或字符串
+      after	节点后面添加新节点或字符串
+      replaceWith	将节点替换为新节点或字符串
+     */
+     let app = document.querySelector('#app');
+     //节点尾部添加元素节点或字符串
+     app.append("<h1>It is easy to learn!!</h1>"); //标签会被当成字符串 不会解析标签
+     //同时可以添加多个内容
+     let h1 = document.createElement('h1');
+     h1.append("It's easy to learn javascript")
+     app.append('@', h1); //同时添加@和h1元素
+     //将标签替换为新内容
+     const span = document.createElement('span');
+     span.innerHTML = '<strong>never give up when you are learning javascript!!</strong>'
+     h1.replaceWith(span); //用span去替代上面的h1元素
+     //before after
+     const p = document.createElement('p');
+     p.append('say what');
+     app.append(p);
+     span.before(p); //p元素移动到span的前面
+     //after同理
+     let textnodes = [].filter.call(app.childNodes, (el) => !el.tagName); //利用tagName来过滤出文本节点
+     console.log(textnodes); //选出了文本节点
+     p.after(textnodes[2]); //将第二个文本节点(@)移动到p的后面
+     //remove(删除节点)
+     textnodes[1].remove(); //删除第二个文本节点
+
+    /**
+     * insertAdjacentHTML
+     将html文本插入到元素指定位置，浏览器会对文本进行标签解析，包括以下位置
+     选项	说明
+     beforebegin	元素本身前面
+     afterend	元素本身后面
+     afterbegin	元素内部前面
+     beforeend	元素内部后面
+     */
+     p.insertAdjacentHTML('beforeend', '<h1>afterend在元素本身的后面插入</h1>'); //在p元素内部的尾部插入h1元素
+
+    /**
+     * insertAdjacentElement
+     insertAdjacentElement() 方法将指定元素插入到元素的指定位置，包括以下位置
+     第一个参数是位置
+     第二个参数为新元素节点
+     选项	说明
+     beforebegin	元素本身前面
+     afterend	元素本身后面
+     afterbegin	元素内部前面
+     beforeend	元素内部后面
+     */
+     const span_test = document.createElement("span");
+     span_test.innerHTML = 'hahaha';
+     p.insertAdjacentElement('afterbegin', span_test); //在p元素的内部的前面添加span元素
+
+    /**
+     * 古老方法
+     下面列表过去使用的操作节点的方法，现在不建议使用了。但在阅读老代码时可来此查看语法
+     方法	说明
+     appendChild	添加节点
+     insertBefore	用于插入元素到另一个元素的前面
+     removeChild	删除节点
+     replaceChild	进行节点的替换操作
+     */
+
+    /**
+     * DocumentFragment
+     当对节点进行添加、删除等操作时，都会引起页面回流来重新渲染页面,即重新渲染颜色，尺寸，大小、位置等等。所以会带来对性能的影响。
+     解决以上问题可以使用以下几种方式
+
+     可以将DOM写成html字符串，然后使用innerHTML添加到页面中，但这种操作会比较麻烦，且不方便使用节点操作的相关方法。
+
+     使用createDocumentFragment来管理节点时，此时节点都在内存中，而不是DOM树中。对节点的操作不会引发页面回流,带来比较好的性能体验。
+
+     DocumentFragment特点
+     createDocumentFragment父节点为null
+     继承自node所以可以使用NODE的属性和方法
+     createDocumentFragment创建的是文档碎片，节点类型nodeType为11。因为不在DOM树中所以只能通过JS进行操作
+     添加createDocumentFragment添加到DOM后,就不可以再操作createDocumentFragment元素了,这与DOM操作是不同的
+     将文档DOM添加到createDocumentFragment时,会移除文档中的DOM元素
+     createDocumentFragment创建的节点添加到其他节点上时，会将子节点一并添加
+     createDocumentFragment是虚拟节点对象，不直接操作DOM所以性能更好
+     在排序/移动等大量DOM操作时建议使用createDocumentFragment
+     #表
+     *
+     */
+
+</script>
+</html>
