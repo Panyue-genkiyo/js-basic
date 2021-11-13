@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>节点创建</title>
+</head>
+<body>
+      <div id="app"></div>
+</body>
+<script>
+    //append 添加元素
+    //append 也是用于添加元素，同时他也可以直接添加文本等内容。
+    document.body.append((document.createElement('div')).innerText = 'hello');
+    document.body.append('never give up');
+
+    /**
+     * createTextNode
+     *创建文本对象并添加到元素中**/
+     const app = document.querySelector('#app');
+     const textNode = document.createTextNode('string');
+     app.append(textNode)
+
+
+    /**
+     * createElement
+     *使用createElement方法可以标签节点对象，创建span标签新节点并添加到div#app
+     **/
+     const span = document.createElement('span');
+     span.innerHTML = 'span in app';
+     app.append(span);
+
+     //结合promise加载外部js文件
+     function  js(url){
+         return new Promise((resolve, reject) =>{
+             const script = document.createElement('script');
+             script.type = 'text/javascript';
+             script.src = url;
+             script.onload = () => resolve(script);
+             script.onerror = () => reject('something went wrong!!');
+             document.body.append(script);
+         })
+     }
+     js('./1.js').then(res => console.log(res)).catch(err => console.log(err));
+
+     //同样的道理，可引入css文件
+    /**
+     *  cloneNode&importNode
+     *  使用cloneNode和document.importNode用于复制节点对象操作
+     *  cloneNode是节点方法
+     *  cloneNode 参数为true时递归复制子节点即深拷贝
+        importNode是document对象方法
+    **/
+    //复制app
+    const newApp = app.cloneNode(true); //克隆且递归拷贝节点
+    //等同于 document.importNode(app,true); 但注意document.importNode方法是部分IE浏览器不支持的，也是复制节点对象的方法
+    document.body.appendChild(newApp);
+
+</script>
+</html>
