@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节点关系</title>
+</head>
+<body>
+    <div id="app">
+        <span>hello</span>
+        <div class="y1" data="hd">
+            vue js
+        </div>
+        <div class="py2 py">
+            nuxt.js
+        </div>
+        <div class="py">
+            py.py
+            <h1 id="hello">hello</h1>
+            <span>py,hello,here</span>
+        </div>
+    </div>
+</body>
+<script>
+     /**
+      *  下面是通过节点关系获取相应元素的方法
+           (这里的节点包含所有的节点，包括文本节点和注释节点)
+           节点属性	说明 
+          childNodes	获取所有子节点
+          parentNode	获取父节点
+          firstChild	第一个子节点
+           lastChild	最后一个子节点
+          nextSibling	下一个兄弟节点
+         previousSibling	上一个兄弟节点
+      **/
+      //获取body元素的所有子元素
+    //   const nodes = document.body.childNodes;
+    //   console.log(nodes);
+    //   console.log(nodes[0].nodeName); //#text文本节点
+    //   console.log(document.body.lastChild.nodeName)
+     
+     //节点关系操作
+     const node = document.querySelector('.py2');
+     console.log(node.parentNode); //获取父节点 div#app
+     console.log(node.childNodes); //获取所有子节点包含文本节点和子节点
+     console.log(node.nextSibling); //下一个兄弟节点 文本节点
+     console.log(node.previousSibling); //上一个兄弟节点 文本节点
+     //document是顶级节点html标签的父节点是document
+     console.log(document.documentElement.parentNode === document); //true
+
+     //查找某个元素所有父节点
+     function getAllParentNodes(el){
+         let nodes = [];
+         while((el = el.parentNode) && el !== document){
+             //查找某一元素的所有父节点
+             nodes.push(el);
+         }
+         return nodes;
+     }
+     //console.log(getAllParentNodes(document.getElementById('hello')));
+
+     //递归查找某个元素的所有父节点
+     function getAllParentNodeBy(el){
+         let nodes = new Array(el.parentNode);
+         if(el.parentNode !== document){
+             nodes = nodes.concat(getAllParentNodeBy(el.parentNode));
+         }
+         return nodes; //递归
+     }
+
+    //  console.log(getAllParentNodeBy(document.getElementById('hello')));
+    //获取后代节点递归
+    function getChildNodesByName(el,name){
+        const items = [];
+        Array.from(el.children).forEach(item => {
+            if(item.tagName === name.toUpperCase()){
+               items.push(item);
+            }
+            items.push(...getChildNodesByName(item,name)); //递归
+        })
+        return items;
+    }
+    //span
+    console.log(getChildNodesByName(document, 'span')); //获取document下的所有span元素
+
+    /**
+     *  标签关系
+     *  使用childNodes等获取的节点包括文本与注释，但这不是我们常用的，为此系统也提供了只操作元素的关系方法。
+     *  节点属性	说明
+       parentElement	获取父元素
+        children	获取所有子元素
+     childElementCount	子标签元素的数量
+     firstElementChild	第一个子标签
+     lastElementChild	最后一个子标签
+    previousElementSibling	上一个兄弟标签
+     nextElementSibling	下一个兄弟标签
+      contains	返回布尔值，判断传入的节点是否为该节点的后代节点
+     * 
+     **/
+     console.log(node.parentElement); //获取父元素 div#app
+     console.log(node.children); //[] HTMLCollection(0) 子节点只含标签元素
+     console.log(node.nextElementSibling); //下一个元素节点
+     console.log(node.previousElementSibling); //上一个元素节点
+     //html标签的父节点是document，但父标签节点不存在
+     console.log(document.documentElement.parentNode === document) //true
+     console.log(document.documentElement.parentElement); //null
+
+     //按类名获取元素
+     function getElThroughClassName(className, tag = document){
+         //递归
+         const items = [];
+         Array.from(tag.children).forEach(item => {
+             if(item.className.includes(className)){
+                 items.push(item);
+             }
+             items.push(...getElThroughClassName(className, item)); //递归
+         });
+         return items;
+     }
+       getElThroughClassName('py').forEach(item => {
+           console.log(item);
+       });
+</script>
+</html>
