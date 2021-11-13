@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标签获取</title>
+</head>
+<body>
+   <div id="hello" class="py">hello!</div>
+   <div id="world" class='py'>
+       <h1 class="py give_up">never giv up</h1>
+       our world
+       <p data='test' class="py">
+           can we be together?
+           <span>
+            do not give up
+           </span>
+       </p>
+       <p>test</p>
+       <p>what do you think of that</p>
+    </div>
+   <div name="py">www.py.com</div>
+   <input type="text" name="username" />
+</body>
+<script>
+    //getElementById
+    //注意 getElementById只能通过document访问，不能通过元素读取拥有ID的子元素 app.getElementById("hello")是错误的
+    const node = document.getElementById('hello')
+    console.dir(node)
+    //自定义函数批量获取指定id元素
+    function getElByIDs(ids){
+        return ids.map(id => document.getElementById(id));
+    }
+    // console.log(getElByIDs(['hello','world']));
+
+    //拥有ID的元素可做为WINDOW的属性进行访问
+    //console.log(world.innerHTML); //ok的
+    //但如果你提前声明了同名变量，这种访问方式将无效，所以不建议直接访问
+    // let world = 'world';
+    // console.log(world.innerHTML); //undefined;
+
+    /**
+     * 
+     * getElementsByName
+       使用getElementByName获取设置了name属性的元素，虽然在DIV等元素上同样有效，但一般用来对表单元素进行操作时使用。
+       返回NodeList节点列表对象 NodeList顺序为元素在文档中的顺序 
+       需要在 document 对象上使用
+     **/
+     const div = document.getElementsByName('py'); //nodelist 
+     console.log(div)
+     const input = document.getElementsByName('username'); //nodelist
+     console.log(input);
+
+     /**
+      * getElementsByTagName
+       使用getElementsByTagName用于按标签名获取元素 返回HTMLCollection节点列表对象
+        是不区分大小的获取
+      **/
+      const divs = document.getElementsByTagName('DiV');
+      console.log(divs); //HTMLCollection
+     //通配符 * 获取所有元素
+     const all = document.getElementsByTagName('*');
+     console.log(all);
+     //某个元素也可以使用通配置符 * 获取后代元素，下面获取 id为world的所有后代元素
+     console.log(document.getElementById('world').getElementsByTagName('*'));
+
+
+     /**
+      * 
+      * getElementsByClassName
+       getElementsByClassName用于按class样式属性值获取元素集合
+      设置多个值时顺序无关，指包含这些class属性的元素
+      **/
+     const nodes = document.getElementsByClassName('py');
+     console.log(nodes);//HTMLCollection
+     //查找同时具有 py 与 give_up 两个class属性的元素
+     console.log(document.getElementsByClassName('py give_up')); //中间不使用逗号和分号隔开注意
+     
+     //样式选择器 querySelectorAll和querySelector
+     /*
+       使用querySelectorAll根据CSS选择器获取NodeList节点列表
+       获取的NodeList节点列表是静态的，添加或删除元素后不变
+      */
+      //获取所有div元素
+      console.log(document.querySelectorAll('div'));
+      //获取id为world的div后代的所有p元素
+      console.log(document.querySelectorAll('#world p'));
+      //或者 console.log(document.getElementById('world').querySelectorAll('p'));
+      //根据元素属性值获取元素集合
+      console.log(document.querySelectorAll("#world p[data='test']"));
+
+      //再来看一些通过样式选择器查找元素
+      console.log(document.querySelectorAll('#world span:last-of-type'));
+      console.log(document.querySelectorAll('#world p:nth-child(2)'));
+
+    /**
+     * 
+     * querySelector
+        querySelector使用CSS选择器获取一个元素，下面是根据属性获取单个元素
+     **/
+     const p_d = document.querySelector("#world p[data='test']"); //获取单个元素
+     console.log(p_d);
+     
+     /**
+      *  matches
+        用于检测元素是否是指定的样式选择器匹配，下面过滤掉所有name属性的LI元素
+      **/
+      //例如下面过滤掉含有data属性的p元素
+      const p_nodes = [...document.querySelectorAll('p')].filter(p => !p.matches('[data]'));
+      console.log(p_nodes);
+
+      /**
+       * closest
+         查找最近的符合选择器的祖先元素（包括自身），下例查找父级拥有 .py类的元素
+       */
+       const py_node = document.querySelector('span').closest('.py');
+       console.log(py_node); //p.py
+       
+</script> 
+</html>
