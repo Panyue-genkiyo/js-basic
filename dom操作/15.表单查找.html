@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单元素选取()</title>
+</head>
+<body>
+<form action="" name="py">
+    <input type="text" name="title" />
+    <div>
+        <input type="radio" id="huey" name="drone" value="huey"
+               checked>
+        <label for="huey">Huey</label>
+    </div>
+
+    <div>
+        <input type="radio" id="dewey" name="drone" value="dewey">
+        <label for="dewey">Dewey</label>
+    </div>
+</form>
+</body>
+<script>
+    /**
+     * 表单查找
+     JS为表单的操作提供了单独的集合控制
+     使用document.forms获取表单集合
+     使用form的name属性获取指定form元素
+     根据表单项的name属性使用form.elements.title获取表单项，
+     也可以直接写成form.name形式，不需要form.elements.title
+     针对radio/checkbox获取的表单项是一个集合
+     */
+    const form = document.forms.py;
+    console.log(form.elements.title) //name属性为title的input元素
+    // 通过表单项可以反向查找FORM
+    console.log(form.title.form === form) //true;
+    console.log(form.drone); //RadioNodeList[input[type=radio], input[type=radio],value:代表你正选中的那个]
+
+
+</script>
+</html>
