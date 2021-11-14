@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>样式管理</title>
+    <style>
+        .test{
+           background: palegreen;
+        }
+        nav{
+            width:100px;
+            height:100px;
+            border:1px solid sandybrown;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .bradius{
+            border-radius:50%;
+        }
+        .text-color{
+            color:deepskyblue;
+        }
+    </style>
+</head>
+<body>
+   <nav id="app" class="text-color">
+       hello
+   </nav>
+   <h1>hello</h1>
+</body>
+<script>
+    /**
+     * #样式管理
+     通过DOM修改样式可以通过更改元素的class属性或通过style对象设置行样式来完成。
+     建议使用class控制样式，将任务交给CSS处理，更简单高效
+     */
+    // 批量设置
+    // 使用JS的className可以批量设置样式
+    const app = document.querySelector('#app');
+    console.log(app);
+    // app.className = 'test';
+    //也可以通过特征的方式来更改
+    // app.setAttribute('class','test');
+
+    /**
+     * classList
+     如果对类单独进行控制使用 classList属性操作
+     方法	说明
+     node.classList.add	添加类名
+     node.classList.remove	删除类名
+     node.classList.toggle	切换类名
+     node.classList.contains	类名检测
+     */
+     app.classList.add('bradius'); //在原有上加上bradius样式
+    //移除样式
+     //app.classList.remove('text-color'); //移除text-color；
+    //toggle切换样式 存在即消失 消失即存在
+    app.addEventListener('click', function (){
+        this.classList.toggle('text-color');
+    });
+    //使用contains检查class是否存在
+    console.log(app.classList.contains('bradius')); //true;
+    console.log(app.classList.contains('test')); //false;
+
+    /**
+     * 设置行样式
+     使用style对象可以对样式属性单独设置，使用cssText可以批量设置行样式
+     样式属性设置
+     使用节点的style对象来设置行样式 注意是行内样式
+     */
+
+     //多个单词的属性使用驼峰进行命名
+     const h1 = document.querySelector('h1');
+     h1.style.backgroundColor = 'red';
+     h1.style.color = 'white';
+
+    //批量设置行样式
+    //使用 cssText属性可以批量设置行样式，属性名和写CSS一样不需要考虑驼峰命名
+    //h1.style.cssText = `background-color:blue;color:white;padding:2px 5px;font-size:45px;`;
+
+    //也可以通过setAttribute改变style特征来批量设置样式
+    h1.setAttribute('style','background-color:blue;color:white;padding:2px 5px;font-size:45px;');
+
+    /**
+     * 获取样式
+     可以通过style对象，window.window.getComputedStyle对象获取样式属性，下面进行说明
+     */
+
+    // style
+    // 可以使用DOM对象的style属性读取行样式
+    // style对象不能获取行样式外定义的样式 注意
+    console.log(h1.style.backgroundColor); //blue
+    console.log(h1.style.padding); //'2px 5px'
+    //console.log(h1.style.test); //undefined 无法获得行样式之外的样式
+
+    // getComputedStyle
+    // 使用window.getComputedStyle可获取所有应用在元素上的样式属性
+    // 函数第一个参数为元素
+    // 第二个参数为伪类
+    // 这是计算后的样式属性，所以取得的单位和定义时的可能会有不同
+    let wt = getComputedStyle(app).width;
+    console.log(+wt.slice(0,3)); //100px
+    console.log(getComputedStyle(app).display); //'flex';
+</script>
+</html>
