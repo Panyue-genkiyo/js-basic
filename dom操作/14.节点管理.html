@@ -11,6 +11,33 @@
 <div id="app">
     hello js!!!
 </div>
+<ul>
+    <li>
+        an1
+        <ul>
+            <li>hello</li>
+            <li>
+                never give up
+                <ul>
+                    <li>Cows</li>
+                    <li>Donkeys</li>
+                    <li>Snakes</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        Guppy
+        <ul>
+            <li>Sea trout</li>
+        </ul>
+    </li>
+    <li>no</li>
+</ul>
+<ul id="ul">
+    <li id="one">1</li>
+    <li id="two">4</li>
+</ul>
 </body>
 <script>
     /**
@@ -103,6 +130,90 @@
      #表
      *
      */
+
+    //递归
+    // let data = {
+    //         "Fish": {
+    //             "trout": {},
+    //             "salmon": {}
+    //         },
+    //
+    //         "Tree": {
+    //             "Huge": {
+    //                 "sequoia": {},
+    //                 "oak": {}
+    //             },
+    //             "Flowering": {
+    //                 "apple tree": {},
+    //                 "magnolia": {}
+    //             }
+    //         }
+    //     };
+    // function createTree(container, obj) {
+    //     container.insertAdjacentHTML('beforeend',createTeeDom(obj));
+    // }
+    //dom操作
+    // function createTeeDom(obj){
+    //     if(!Object.keys(obj).length) return;
+    //     let ul = document.createElement('ul');
+    //     for(let key in obj){
+    //         let li = document.createElement('li');
+    //         li.innerText = key;
+    //         let childUl = createTeeDom(obj[key]);
+    //         if(childUl){
+    //             li.append(childUl);
+    //         }
+    //         ul.append(li);
+    //     }
+    //     return ul;
+    // }
+    //
+    // createTree(document.body, data);
+
+    //innerHTML方法
+    // function  createTeeDom(obj) {
+    //     let ul;
+    //     let li = '';
+    //     for(let key in obj){
+    //         li += `<li>${key}  ` + createTeeDom(obj[key]) + `</li>`;
+    //     }
+    //     if(li) {
+    //         ul = '<ul>' + li + '</ul>';
+    //     }
+    //     return ul || '';
+    // }
+    //
+    // createTree(document.body,data);
+
+    // function showTree(el){
+    //     // if(!el.children?.length) return 1;
+    //     // let childLength = 0;
+    //     // for(let elem of el.children){
+    //     //     childLength += showTree(elem);
+    //     // }
+    //     // el.childNodes[0].data = el.childNodes[0].data.trim() + `[${childLength}]`;
+    //     // return childLength;
+    // }
+
+    let lis = document.getElementsByTagName('li');
+    for(let li of lis){
+        let descendantsCount = li.getElementsByTagName('li').length;
+        if(!descendantsCount) continue;
+        li.firstChild.data += ' [' + descendantsCount + ']';
+    }
+
+
+    //编写代码，将 <li>2</li><li>3</li>，插入到两个 <li> 之间
+    let one = document.querySelector('#one');
+    // let fragment = new DocumentFragment();
+    // for(let i = 2; i <= 3 ; i++){
+    //     let li = document.createElement('li');
+    //     li.append(i);
+    //     fragment.append(li);
+    // }
+    //
+    // one.after(fragment);
+    one.insertAdjacentHTML('afterend', '<li>2</li><li>3</li>')
 
 </script>
 </html>
