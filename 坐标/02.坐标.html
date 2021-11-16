@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height:3000px;
+        }
+        #main{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top:100px;
+            left:50px;
+        }
+    </style>
+</head>
+<body>
+     <main id="main">
+         
+     </main>
+</body>
+<script>
+//     用于 “fixed” 定位
+// 为了显示元素附近的东西，我们可以使用 getBoundingClientRect 来获取其坐标，然后使用 CSS position 以及 left/top（或 right/bottom）。
+
+// 例如，下面的函数 createMessageUnder(elem, html) 在 elem 下显示了消息：
+//    function createMessageUnder(elem,html){
+//        let div = document.createElement('div');
+//        div.style.cssText = 'position: fixed; color:green';
+//        let cox = elem.getBoundingClientRect();
+//        div.style.top = cox.bottom + 'px';
+//        div.style.left = cox.left + 'px';
+//        div.insertAdjacentText('beforeEnd', html);
+//        return div;
+//    }
+
+//    let div = createMessageUnder(document.getElementById('main'),'hello');
+//    document.body.appendChild(div);
+//    setTimeout(() => div.remove(), 3000);
+
+   /**
+    * pageY = clientY + 文档的垂直滚动出的部分的高度。
+     pageX = clientX + 文档的水平滚动出的部分的宽度。
+    */
+//     function getCoords(elem) {
+//         let box = elem.getBoundingClientRect();
+//         // console.log(window.pageXOffset,window.pageYOffset);
+//         return {
+//             top: box.top + window.pageYOffset,
+//             right: box.right + window.pageXOffset,
+//             bottom: box.bottom + window.pageYOffset,
+//             left: box.left + window.pageXOffset
+//         };
+//    } 
+
+//    function createMessageUnder(elem, html) {
+//       let message = document.createElement('div');
+//       message.style.cssText = "position:absolute; color: green"; //注意这里是绝对定位
+
+//       let coords = getCoords(elem);
+//       message.style.left = coords.left + "px";
+//       message.style.top = coords.bottom + "px";
+//       console.log(message.style.top, message.style.left);
+//       message.innerHTML = html;
+//       return message;
+//  }
+    
+//    let div = createMessageUnder(document.getElementById('main'),'hello');
+//    document.body.appendChild(div);
+//    setTimeout(() => div.remove(), 3000);
+
+   //获取dom元素坐标
+   function getDomCoordinate(elem){
+       //坐上
+        let { top, left, right, bottom } = elem.getBoundingClientRect();
+        let topLeft = { x: left, y: top };
+        let bottomRight = { x: right, y:bottom};
+        let topLeftInner = { x: left + elem.clientLeft, y: top + elem.clientTop };
+        let bottomRightInner = { x: left + elem.clientLeft + elem.clientWidth , y: top + elem.clientTop + elem.clientHeight };
+        return {
+            topLeft,
+            bottomRight,
+            topLeftInner,
+            bottomRightInner
+        };
+   } 
+
+   /**
+    * 创建一个函数 positionAt(anchor, position, elem) 来定位 elem，具体取决于 anchor 元素附近的 position。
+      position 必须具有下列三个字符串中的一个：
+      "top" — 将 elem 定位在 anchor 上方
+      "right" — 将 elem 定位在 anchor 右侧
+      "bottom" — 将 elem 定位在 anchor 下方
+       position 被用在函数 showNote(anchor, position, html) 内，该函数使用给定的 html 创建一个 “note” 元素，并将其显示在 anchor 附近的 position 处。
+    */
+     function positionAt(anchor, position, elem) {
+         let cords = anchor.getBoundingClientRect();
+         switch(position) {
+             case 'top':
+                 elem.style.top = cords.top - elem.clientHeight + 'px';
+                 elem.style.left = cords.left + 'px';
+                 break;
+            case 'right':
+                elem.style.top = cords.top + 'px';
+                elem.style.left = cords.left + anchor.clientWidth + 'px';
+                break;     
+            case bottom:
+                elem.style.top = cords.top + anchor.clientHeight + 'px';
+                elem.style.left = cords.left + 'px';
+                break;    
+         }
+         
+     }
+
+     function showNote(anchor, position, html){
+         let div = document.createElement("div");
+         div.innerHTML = html;
+         div.className = "note";
+         document.body.appendChild(div);
+         positionAt(anchor, position, div);
+     }
+     
+     ///等等等...
+</script>
+</html>
