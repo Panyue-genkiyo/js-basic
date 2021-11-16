@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            *{
+                padding:0;
+                margin: 0;
+                /* box-sizing: border-box; */
+            }
+            #example{
+               width: 300px;
+               height: 200px;
+               border:25px solid #E8C48F;
+               padding: 20px;
+               overflow: auto;
+               position: absolute;
+               left: 20px;
+               top: 20px;
+            }
+            #main{
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <main id="main">
+            <div id="example">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
+            <!-- <button id="button">撑开</button> -->
+        </main>
+        
+                
+        
+        <script async defer>
+            /**
+             *  大多数 JavaScript 方法处理的是以下两种坐标系中的一个：
+               相对于窗口 — 类似于 position:fixed，从窗口的顶部/左侧边缘计算得出。
+               我们将这些坐标表示为 clientX/clientY，当我们研究事件属性时，就会明白为什么使用这种名称来表示坐标。
+            相对于文档 — 与文档根（document root）中的 position:absolute 类似，从文档的顶部/左侧边缘计算得出。
+            我们将它们表示为 pageX/pageY。
+             **/
+            
+
+            //offsetParent，offsetLeft/Top
+            //offsetParent 是最接近的祖先（ancestor），在浏览器渲染期间，它被用于计算坐标。
+            /**
+             * 有以下几种情况下，offsetParent 的值为 null：
+               对于未显示的元素（display:none 或者不在文档中）。
+               对于 <body> 与 <html>。 
+               对于带有 position:fixed 的元素。
+             **/
+            console.log(example.offsetParent.id); //main
+            console.log(example.offsetLeft); //20 数字
+            console.log(example.offsetTop); //20 数字`
+
+
+            /**
+             * offsetWidth/Height
+               现在，让我们继续关注元素本身。
+               这两个属性是最简单的。它们提供了元素的“外部” width/height。或者，换句话说，它的完整大小（包括边框,padding,scrollbar）。
+               有滑动条的情况下还要包括滑动条的宽
+             **/
+            console.log(example.offsetWidth); //300
+            console.log(example.offsetHeight); //290
+            //注意
+            // 对于未显示的元素，几何属性为 0/null 仅针对显示的元素计算几何属性。
+            // 如果一个元素（或其任何祖先）具有 display:none 或不在文档中，则所有几何属性均为零（或 offsetParent 为 null）。
+            
+
+            //clientTop/Left
+            // 在元素内部，我们有边框（border）。
+           // 为了测量它们，可以使用 clientTop 和 clientLeft。
+           //准确来说我们clientTop/left并不是border的width和height 而是相对坐标
+          // 在我们的例子中：
+           console.log(example.clientTop); //25 上边框宽度
+           console.log(example.clientLeft); //25 //左边框宽
+          //如果滑动条出现在左边 则clientLeft = border width + scrollbar width = 25 + 16 = 41
+          
+        //   clientWidth/Height
+        //   这些属性提供了元素边框内区域的大小。
+        //   它们包括了 “content width” 和 “padding”和"滚动条"：
+        //因此，当没有 padding 时，我们可以使用 clientWidth/clientHeight 来获取内容区域的大小。
+           console.log(example.clientWidth); //300+20+20;
+           console.log(example.clientHeight); //200+20+20
+           
+           //scrollWidth/Height
+          //这些属性就像 clientWidth/clientHeight，但它们还包括滚动出（隐藏）的部分：
+           console.log(example.scrollWidth); //300+20+20 = 340
+           console.log(example.scrollHeight); //392
+
+
+        //    let btn = document.querySelector('#button');
+        //    btn.addEventListener('click', function(){
+        //        console.log('撑开');
+        //        console.log(example.scrollHeight);
+        //        example.style.height = `${example.scrollHeight}px`;
+        //    });
+ 
+         //scrollLeft/scrollTop
+         //属性 scrollLeft/scrollTop 是元素的隐藏、滚动部分的 width/height。
+         //在下图中，我们可以看到带有垂直滚动块的 scrollHeight 和 scrollTop。
+         //换句话说，scrollTop 就是“已经滚动了多少”。
+         //大多数几何属性是只读的，但是 scrollLeft/scrollTop 是可修改的，并且浏览器会滚动该元素。
+         console.log(example.scrollTop); //0
+         console.log(example.scrollLeft); //0
+  
+         console.log(getComputedStyle(example).width); //300px 不包括padding
+         
+        //  let div = document.createElement('div');
+             
+        //     div.style.overflowY = 'scroll';
+        //     div.style.width = '50px';
+        //     div.style.height = '50px';
+
+        //     // 必须将其放入文档（document）中，否则其大小将为 0
+        //     document.body.append(div);
+        //     //没有border的情况下则offsetWidth = clientWidth + 滑动条宽度
+        //     let scrollWidth = div.offsetWidth - div.clientWidth;
+
+        //     div.remove();
+
+        //     alert(scrollWidth);
+        
+           
+        //    example.addEventListener('scroll', function(){
+        //        console.log(this.scrollTop);
+        //    })
+
+
+        /**
+         *  
+            #控制滚动
+            下面介绍的是控制元素滚动的操作方法
+            #scrollBy
+            使用scrollBy滚动文档
+            behavior:smooth 为平滑滚动
+         */
+        //  setInterval(() => {
+        //      example.scrollTop += 10;
+        //      if(example.scrollTop >= example.scrollHeight){
+        //         //  example.scrollTop = 0;
+        //         example.scrollIntoView({block: 'start',behavior: 'smooth'});
+        //      }
+        //  }, 500)
+         
+
+        </script>
+    </body>
+</html>
