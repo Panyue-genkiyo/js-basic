@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>窗口的大小和移动</title>
+    <style>
+        body{
+            padding:0;
+            margin:0;
+            height: 3000px;
+        }
+        #btn3{
+            position:fixed;
+            top:50px
+        }
+    </style>
+</head>
+<body>
+     <div>
+         <p>
+            Why do we use it?
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+         </p>
+     </div>
+     <button id="btn1">scrollBy(0,10)</button>
+     <button id="btn2">scrollTo(0,0)</button>
+     <button id="btn3">btn1.scrollIntoView</button>
+</body>
+<script>
+    //为了获取窗口（window）的宽度和高度，我们可以使用 document.documentElement 的 clientWidth/clientHeight：
+    console.log(document.documentElement.clientWidth, document.documentElement.clientHeight);
+    //窗口当前滚动
+    console.log('Current scroll from the top: ' + window.pageYOffset);
+    console.log('Current scroll from the left: ' + window.pageXOffset);
+    
+    //滚动：scrollTo，scrollBy，scrollIntoView
+    /**
+     * 可以通过更改 scrollTop/scrollLeft 来滚动常规元素。
+       我们可以使用 document.documentElement.scrollTop/scrollLeft 对页面进行相同的操作（Safari 除外，而应该使用 document.body.scrollTop/Left 代替）。
+       或者，有一个更简单的通用解决方案：使用特殊方法 window.scrollBy(x,y) 和 window.scrollTo(pageX,pageY)。
+     */
+     //方法 scrollBy(x,y) 将页面滚动至 相对于当前位置的 (x, y) 位置。例如，scrollBy(0,10) 会将页面向下滚动 10px。
+     btn1.addEventListener("click",() => {
+        window.scrollBy(0,10);
+     });
+     //方法 scrollTo(pageX,pageY) 将页面滚动至 绝对坐标，使得可见部分的左上角具有相对于文档左上角的坐标 (pageX, pageY)。就像设置了 scrollLeft/scrollTop 一样。
+     btn2.addEventListener("click",() => {
+         //绝对坐标
+        window.scrollTo(0,0);
+     });
+     /**
+      * 为了完整起见，让我们再介绍一种方法：elem.scrollIntoView(top)。
+        对 elem.scrollIntoView(top) 的调用将滚动页面以使 elem 可见。它有一个参数：
+        如果 top=true（默认值），页面滚动，使 elem 出现在窗口顶部。元素的上边缘将与窗口顶部对齐。
+        如果 top=false，页面滚动，使 elem 出现在窗口底部。元素的底部边缘将与窗口底部对齐。
+      */
+      btn3.addEventListener("click",() => {
+        //scrollIntoView(top)
+        //让btn1出现在窗口顶部
+        btn1.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        //让btn1出现在窗口底部
+        // btn1.scrollIntoView({ block: 'end', behavior: 'smooth' });
+      });
+      /**
+       * 有时候我们需要使文档“不可滚动”。例如，当我们需要用一条需要立即引起注意的大消息来覆盖文档时，我们希望访问者与该消息而不是与文档进行交互。
+         要使文档不可滚动，只需要设置 document.body.style.overflow = "hidden"。该页面将“冻结”在其当前滚动位置上。
+         控制可以滚动：document.body.style.overflow = ""。
+       */
+</script>
+
+
+</html>
