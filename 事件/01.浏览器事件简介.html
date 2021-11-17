@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #tree span{
+            cursor: pointer;
+        }
+        #tree span:hover{
+            font-weight: bold;
+        }
+        .tooltip {
+      position: fixed;
+      padding: 10px 20px;
+      border: 1px solid #b3c9ce;
+      border-radius: 4px;
+      text-align: center;
+      font: italic 14px/1.3 sans-serif;
+      color: #333;
+      background: #fff;
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, .3);
+    }
+    </style>
+</head>
+<body>
+    <button>click to hide the text</button>
+    <p>text</p>
+    <button id='hideMyself'>click to hide myself</button>
+    <ul id="tree">
+        <li>
+            js framework
+            <ul>
+                <li>
+                    jquery
+                    <ul>
+                        <li>jq1</li>
+                        <li>jq2</li>
+                    </ul>
+                </li>
+                <li>angular</li>
+                <li>react</li>
+                <li>vue</li>
+            </ul>
+        </li>
+        <li>
+            css framework
+            <ul>
+                <li>bootstrap</li>
+                <li>materialize</li>
+                <li>semantic</li>
+                <li>uikit</li>
+            </ul>
+        </li>
+        <li>html/css/javascript</li>
+    </ul>
+    <p>LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa</p>
+    <p>LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa</p>
+    <button data-tooltip="the tooltip is longer than the element">Short button</button>
+    <button data-tooltip="HTML<br>tooltip">One more button</button>
+    <p>Scroll the page to make buttons appear on the top, check if the tooltips show up correctly.</p>
+</body>
+<script>
+    let btn = document.querySelector('button');
+    btn.addEventListener('click',function(e) {
+        let p = document.querySelector('p');
+        // p.style.display = 'none';
+        p.hidden = true;
+    });
+    // hideMyself.addEventListener('click', function(e) {
+    //     // e.target.hidden = true;
+    //     this.hidden = true; //this === button
+    // });
+    //同理
+    // hideMyself.onclick = function() {
+    //      this.hidden = true;
+    // }
+
+    // document.addEventListener('click',function(event){
+    //     //加到span里面
+    //     let tg = event.target;
+    //     if(tg.tagName !== 'LI') return;
+
+    //     let ul = tg.querySelector('ul');
+    //     ul.hidden = !ul.hidden;
+    // })
+    
+    for(let li of tree.querySelectorAll('li')){
+        let span = document.createElement('span');
+        li.prepend(span);
+        //move the text to the span
+        span.append(span.nextSibling);
+    }
+    
+    tree.onclick = function(event){
+        if(event.target.tagName !== 'SPAN') return;
+        let childLi = event.target.parentNode.querySelector('ul');
+        if(!childLi) return; //如果没有子菜单则跳过
+        childLi.hidden = !childLi.hidden;
+    }
+
+    //事件委托
+    let tooltipElem;
+    document.onmouseover = function (event) { 
+        let target = event.target;
+        let tooltipHtml = target.dataset.tooltip;
+        if(!tooltipHtml) return;
+        tooltipElem = document.createElement('div');
+        tooltipElem.className = 'tooltip';
+        tooltipElem.innerHTML = tooltipHtml;
+        document.body.appendChild(tooltipElem);
+        
+        //坐标
+        let cords = target.getBoundingClientRect();
+        //如果超出了左边则在left = 0
+        let left  = cords.left + (target.offsetWidth - tooltipElem.offsetWidth) / 2;
+        if(left < 0) left = 0;
+        let top = cords.top - tooltipElem.offsetHeight - 5;
+        //如果超过了顶部则在下方显示
+        if(top < 0) top = cords.top + target.offsetHeight + 5;
+        tooltipElem.style.left = left + 'px';
+        tooltipElem.style.top = top + 'px';
+     }
+
+     document.onmouseout = function (event) {
+        if(!tooltipElem) return;
+        tooltipElem.remove();
+        tooltipElem = null;
+     }
+</script> 
+</html>
