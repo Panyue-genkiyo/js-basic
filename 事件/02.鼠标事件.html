@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标事件</title>
+    <style>
+       /* #text{
+           width: 300px;
+           height: 100px
+       } */
+       .selected{
+           background: lightgreen;
+       }
+       li{
+           cursor: pointer;
+       }
+    </style>
+</head>
+<body>
+    <!-- <button id="btn">
+         click me with right or the left button
+    </button>
+    <button id="clear">
+        clear
+    </button>
+    <br/>
+    <textarea id="text">
+
+    </textarea> -->
+    <h1>Click on a list item to select it.</h1>
+     <ul>
+         <li>a</li>
+         <li class="li two">b</li>
+         <li>c</li>
+     </ul>
+</body>
+<script>
+    //顺序：mousedown => mouseup => click
+    // let textHtml = '';
+    // const text = document.querySelector('#text');
+    // document.addEventListener('contextmenu', function(e){
+    //     if(e.target.tagName !== 'BUTTON') return;
+    //     e.preventDefault();
+    // })
+    // btn.addEventListener("click", function(e){
+    //     textHtml += `click ${e.button}\n`;
+    //     text.value =  textHtml;
+    //     text.scrollTop = text.scrollHeight;
+    // });
+    // btn.addEventListener("mousedown", function(e){
+    //     textHtml += `mousedown ${e.button}\n`;
+    // });
+    // btn.addEventListener("mouseup", function(e){
+    //     textHtml += `mouseup ${e.button}\n`;
+    // });
+    // clear.addEventListener("click", function(){
+    //     textHtml = '';
+    //     text.value = textHtml;
+    // });
+    //事件委托
+    /**
+     * 总结
+        鼠标事件有以下属性：
+        按钮：button。
+        组合键（如果被按下则为 true）：altKey，ctrlKey，shiftKey 和 metaKey（Mac）。
+        如果你想处理 Ctrl，那么不要忘记 Mac 用户，他们通常使用的是 Cmd，所以最好检查 if (e.metaKey || e.ctrlKey)。
+        窗口相对坐标：clientX/clientY。
+        文档相对坐标：pageX/pageY。
+        mousedown 的默认浏览器操作是文本选择，如果它对界面不利，则应避免它。
+     */
+    
+     const ul = document.querySelector('ul');
+    
+
+    ul.addEventListener('click', function(e){
+        if(e.target.tagName !== 'LI') return;
+        if(!e.metaKey && !e.ctrlKey){
+         for(let li of e.target.parentNode.children){
+            if(li === e.target) continue;
+            li.classList.remove('selected');
+         }
+           e.target.classList.add('selected');
+       }else{
+           e.target.classList.toggle('selected');
+       }
+    });
+    
+    ul.onmousedown = function (event) {
+      return false;
+    }
+</script>
+</html>
