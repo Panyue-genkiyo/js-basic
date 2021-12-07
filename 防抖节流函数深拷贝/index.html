@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+     <input type="text"/>
+     <button id="cancel">取消</button>
+     <!--采用第三方underscore库来开发(防抖节流操作)-->
+     <!--<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd.min.js"></script>-->
+     <!--<script src="./01_debounce-v1-基本实现.js"></script>-->
+     <!--<script src="./02_debounce-v2-立即执行.js"></script>-->
+     <script src="./04_debounce-v2-拿到防抖函数的返回值.js"></script>
+<!--     <script src="./03_debounce-v2-取消.js"></script>-->
+     <script>
+         const input = document.querySelector('input');
+         const cancel = document.querySelector('#cancel');
+         let counter = 0;
+         //防抖，如果1s内没有输入，就执行一次事件回调函数，每次输入都会把事件函数往后推迟1s
+         const inputHandler = debounce(function(event){
+             console.log(`发送了${++counter}次请求`, this, event);
+             return "134"; //防抖函数的返回值
+         },1000, false);
+         //节流事件
+         //在1s中只能执行一次事件回调函数 按固定的频率执行
+         // const inputHandler = _.throttle(function(){
+         //     console.log(`发送了${++counter}次请求`);
+         // },1000);
+         input.oninput = function(){
+             //this === input
+             // inputHandler.bind(this)().then(function(value){
+             //     console.log(value); //拿到
+             // });
+             inputHandler.call(this).then(function(value){
+                 console.log(value); //拿到
+             });
+         }
+         cancel.onclick = function(){
+             inputHandler.cancel(); //取消掉正在的请求定时器
+         }
+     </script>
+</body>
+</html>
