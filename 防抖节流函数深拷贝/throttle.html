@@ -12,17 +12,36 @@
 <button id="cancel">取消</button>
 <!--<script src="./05_throttle-v1-基本实现.js"></script>-->
 <!--<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd.min.js"></script>-->
-<script src="./06_throttle-v1-处理开始和尾部是否要执行.js"></script>
+<!--<script src="./07_throttle-v3-添加取消功能.js"></script>-->
+<script src="./08_throttle-v4-添加拿到节流函数返回值功能.js"></script>
 <script>
     const inputEl = document.querySelector('input');
+    const cancelBtn = document.querySelector('#cancel');
     let counter = 0;
     const inputChange = function (event){
         console.log(`发送了${++counter}次请求`);
         console.log(this, event);
+        return 12233;
     }
     //节流处理
     // inputEl.oninput = _.throttle(inputChange,1000);
-    inputEl.oninput = throttle(inputChange,3000, {leading: false, trailing: true});
+    const _throttle = throttle(inputChange, 3000, {
+        leading: false,
+        trailing: false,
+        resultCallback: (res) => {
+            console.log(res);
+        }
+    });
+    inputEl.oninput = function (){
+        //绑定this和arguments
+        //this === inputEl
+        // console.log(arguments);
+        _throttle.apply(this,arguments)
+                 .then(res => console.log(res));
+    }
+    cancelBtn.onclick = function (){
+        _throttle.cancel();
+    }
 </script>
 </body>
 </html>
