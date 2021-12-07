@@ -5,7 +5,7 @@ function throttle(fn, delay){
     const fnByThrottle = function (...args){
          //当事件触发时记录当前时间
         const curTime = Date.now();
-        //如果当前时间和上一次触发的时间差小于delay，则返回
+        //如果当前时间和上一次触发的时间差大于delay，则执行回调函数
         if(curTime - lastTime >= delay){
             //如果当前时间和上一次触发的时间差大于delay，则执行函数
             fn.apply(this, args);
