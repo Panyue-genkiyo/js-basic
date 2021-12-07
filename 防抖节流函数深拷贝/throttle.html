@@ -32,11 +32,11 @@
             console.log(res);
         }
     });
-    inputEl.oninput = function (){
+    inputEl.oninput = function (...args){
         //绑定this和arguments
         //this === inputEl
         // console.log(arguments);
-        _throttle.apply(this,arguments)
+        _throttle.apply(this,args)
                  .then(res => console.log(res));
     }
     cancelBtn.onclick = function (){
