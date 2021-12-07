@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试节流函数的执行</title>
+</head>
+<body>
+<input type="text"/>
+<button id="cancel">取消</button>
+<script src="./05_throttle-v1-基本实现.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd.min.js"></script>-->
+<script>
+    const inputEl = document.querySelector('input');
+    let counter = 0;
+    const inputChange = function (event){
+        console.log(`发送了${++counter}次请求`);
+        console.log(this, event);
+    }
+    //节流处理
+    // inputEl.oninput = _.throttle(inputChange,1000);
+    inputEl.oninput = throttle(inputChange,1000);
+</script>
+</body>
+</html>
