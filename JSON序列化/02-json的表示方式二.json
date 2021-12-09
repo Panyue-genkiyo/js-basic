@@ -1,0 +1,13 @@
+{
+  "name": "panyue",
+  "age": 21,
+  "friend": {
+    "name": "xiaoming",
+    "age": 18
+  },
+  "hobbies": [
+    "basketball",
+    "football",
+    "swimming"
+  ]
+}
