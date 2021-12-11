@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Panyue-genkiyo/js-basic#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "co": "^4.6.0"
   }
 }
