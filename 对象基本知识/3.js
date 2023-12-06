@@ -24,7 +24,7 @@ function createElement(options = {}){
     div.style.backgroundColor = background;
     document.body.appendChild(div);
 }
-d
+
 
 createElement({ width:300, height: 30 });
 
